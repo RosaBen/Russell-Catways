@@ -36,3 +36,28 @@ export async function createNewCatway (req, res) {
     return res.status(501).json({ message: "server error" });
   }
 }
+
+/**
+ * Get all catways
+ *
+ * @async
+ * @route GET/catways
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns {Promise} 
+ * @access Protected
+ */
+export async function getAllCatways (req, res) {
+  try {
+    const catways = await Catway.find().sort({ createdAt: -1 });
+    if (!catways) {
+      return res.status(404).json({ message: "there are no catways created yet" });
+    }
+    return res.status(200).json(catways);
+  } catch (error) {
+    return res.status(501).json({
+      message: "server error"
+    });
+  }
+}
