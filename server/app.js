@@ -6,6 +6,8 @@ import cors from "cors";
 
 import usersRouter from "./routes/users.js";
 import catwaysRouter from "./routes/catways.js";
+import reservationsRouter from "./routes/reservations.js";
+import catwayReservationsRouter from "./routes/catwayReservations.js";
 
 import { initClientDbConnection } from "./db/mongo.js";
 
@@ -27,6 +29,8 @@ app.use(cookieParser());
 
 app.use('/api/users', usersRouter);
 app.use("/api/catways", catwaysRouter);
+app.use("/api/reservations", reservationsRouter);
+app.use("/api/catways/:id/reservations", catwayReservationsRouter);
 
 app.use(function (req, res, next) {
   res.status(404).json({
