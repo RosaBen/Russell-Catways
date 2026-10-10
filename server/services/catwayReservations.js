@@ -1,4 +1,5 @@
 import Reservation from "../models/Reservation.js";
+import { findCatwayNumber } from "../utils/utils.js";
 
 /**
  * create a new reservation for a selected catway
@@ -18,6 +19,7 @@ export async function createCatwayReservation (req, res) {
     const { id } = req.params;
     const catway = await findCatwayNumber(id);
     const existingReservation = await Reservation.findOne({ catwayNumber: catway.catwayNumber, startDate: { $lt: endDate }, endDate: { $gt: startDate } });
+
     if (existingReservation) {
       return res.status(400).json({
         message: `this catway ${catway.catwayNumber} is already booked for this timeperiod`
