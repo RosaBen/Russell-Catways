@@ -90,3 +90,58 @@ export async function getUserByEmail (req, res) {
     });
   }
 }
+
+/**
+ * edit a user found by email
+ *
+ * @async
+ * @route PUT/users/:email
+ * @param {email} email
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns {Promise} 
+ * @access Protected
+ */
+export async function editUser (req, res) {
+  const temp = ({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password
+  });
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    if (temp.email && temp.email !== user.email) {
+      const existingUser = await User.findOne({
+        email: temp.email,
+        _id: { $ne: user._id }
+      });
+      if (existingUser) {
+        return res.status(400).json({ message: "this email/user exist already" });
+      }
+    }
+    Object.keys(temp).forEach(key => {
+      if (temp[key] !== undefined) {
+        user[key] = temp[key];
+      }
+    });
+    await user.save();
+    return res.status(201).json({
+      message: "user edited", user: {
+        id: user._id,
+        email: user.email,
+        username: user.username
+      }
+    });
+
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({ errors: messages });
+    }
+    return res.status(501).json({ message: "server error" });
+  }
+}
