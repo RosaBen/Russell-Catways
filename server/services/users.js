@@ -145,3 +145,31 @@ export async function editUser (req, res) {
     return res.status(501).json({ message: "server error" });
   }
 }
+
+/**
+ * delete a user
+ *
+ * @async
+ * @route DELETE/users/:email
+ * @param {email} email
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns {Promise} 
+ * @access Protected
+ */
+export async function deleteUser (req, res) {
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    if (!user) {
+      res.status(404).json({ message: "user not found" });
+    }
+    await User.deleteOne(user);
+    return res.status(200).json({ message: "user deleted" });
+
+  } catch (error) {
+    return res.status(501).json({
+      message: "server error"
+    });
+  }
+}
