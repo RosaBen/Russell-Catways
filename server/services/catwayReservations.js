@@ -78,3 +78,35 @@ export async function getAllCatwayBookings (req, res) {
     return res.status(501).json({ message: "server error" });
   }
 }
+
+/**
+ * Get an existing reservation for the selected catway
+ *
+ * @async
+ * @route GET/catways/:id/reservations/:idReservation
+ * @param {id} catwayNumber
+ * @param {idReservation} reservation_id
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Promise} 
+ * @access Protected
+ */
+export async function getReservationById (req, res) {
+  try {
+    const { idReservation, id } = req.params;
+    const catway = await findCatwayNumber(id);
+    const reservation = await Reservation.findOne({
+      _id: idReservation,
+      catwayNumber: catway.catwayNumber
+    });
+    if (!reservation) {
+      return res.status(404).json({
+        message: `Reservation not found for this catway ${catway.catwayNumber}`
+      });
+    }
+    return res.status(200).json(reservation);
+  } catch (error) {
+    return res.status(501).json({ message: "server error" });
+  }
+}
