@@ -137,3 +137,30 @@ export async function editCatway (req, res) {
 
   }
 }
+
+/**
+ * delete a catway
+ *
+ * @async
+ * @route DELETE/catways/:id
+ * @param {id} catwayNumber
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns {Promise} 
+ * @access Protected
+ */
+export async function deleteCatway (req, res) {
+  try {
+    const catway = await Catway.findOne({ catwayNumber: req.params.id });
+    if (!catway) {
+      res.status(404).json({ message: "catway not found" });
+    }
+    await Catway.deleteOne(catway);
+    return res.status(200).json({ message: "catway deleted" });
+  } catch (error) {
+    return res.status(501).json({
+      message: "server error"
+    });
+  }
+}
