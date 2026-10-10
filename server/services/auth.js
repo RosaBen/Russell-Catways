@@ -1,0 +1,58 @@
+import User from "../models/User.js";
+import bcrypt from "bcrypt";
+import { generateToken } from "../utils/utils.js";
+
+/**
+ * login 
+ *
+ * @async
+ * @route POST/login
+ * @param {Request} req 
+ * @param {Response} res 
+ * @returns {Promise} 
+ * @access Public
+ */
+export async function login (req, res) {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        message: "wrong credentials"
+      });
+    }
+
+    const passwordCorrect = await bcrypt.compare(password, user.password);
+    if (!passwordCorrect) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
+
+    const token = generateToken(user._id);
+    user.token = token;
+    await user.save();
+
+    const options = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 1000
+    };
+
+    res.cookie("token", token, options);
+
+    return res.status(200).json({
+      message: "login successful",
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email
+      }
+    });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({ errors: messages });
+    }
+    return res.status(501).json({ message: "server error" });
+  }
+}

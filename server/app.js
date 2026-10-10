@@ -8,6 +8,7 @@ import usersRouter from "./routes/users.js";
 import catwaysRouter from "./routes/catways.js";
 import reservationsRouter from "./routes/reservations.js";
 import catwayReservationsRouter from "./routes/catwayReservations.js";
+import authRouter from "./routes/auth.js";
 
 import { initClientDbConnection } from "./db/mongo.js";
 
@@ -26,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
-
+app.use("/api", authRouter);
 app.use('/api/users', usersRouter);
 app.use("/api/catways", catwaysRouter);
 app.use("/api/reservations", reservationsRouter);
