@@ -87,3 +87,53 @@ export async function getCatwayByCatwayNumber (req, res) {
     });
   }
 }
+
+/**
+ * edit a catway found by catwaynumber
+ *
+ * @async
+ * @route PUT/catways/:id
+ * @param {id} catwayNumber
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns {Promise} 
+ * @access Protected
+ */
+export async function editCatway (req, res) {
+  const temp = ({
+    catwayNumber: req.body.catwayNumber,
+    catwayType: req.body.catwayType,
+    catwayState: req.body.catwayState
+  });
+  try {
+    const catway = await Catway.findOne({ catwayNumber: req.params.id });
+    if (!catway) {
+      return res.status(404).json({ message: "catway not found" });
+    }
+
+    Object.keys(temp).forEach(key => {
+      if (temp[key] !== undefined) {
+        catway[key] = temp[key];
+      }
+    });
+
+    await catway.save();
+    return res.status(201).json({
+      message: "catway edited",
+      catway: {
+        id: catway._id,
+        catwayNumber: catway.catwayNumber,
+        catwayType: catway.catwayType,
+        catwayState: catway.catwayState
+      }
+    });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({ errors: messages });
+    }
+    return res.status(501).json({ message: "server error" });
+
+  }
+}
