@@ -26,9 +26,20 @@ export async function findCatwayNumber (catwayNumber) {
  * @param {user} user 
  * @returns {string} 
  */
-export async function generateToken (user) {
+export function generateToken (user) {
   const expirIn = 24 * 60 * 60;
   return jwt.sign({ id: user._id, email: user.email }, process.env.SECRET_KEY, {
     expiresIn: expirIn
   });
+}
+
+export function getAuthCookieOptions () {
+  return (
+    {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/"
+    }
+  );
 }

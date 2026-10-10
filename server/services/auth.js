@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
-import { generateToken } from "../utils/utils.js";
+import { generateToken, getAuthCookieOptions } from "../utils/utils.js";
 
 /**
  * login 
@@ -27,18 +27,12 @@ export async function login (req, res) {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    const token = generateToken(user._id);
-    user.token = token;
-    await user.save();
+    const token = generateToken(user);
 
-    const options = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 60 * 60 * 1000
-    };
-
-    res.cookie("token", token, options);
+    res.cookie("token", token, {
+      ...getAuthCookieOptions(),
+      maxAge: 24 * 60 * 60 * 1000
+    });
 
     return res.status(200).json({
       message: "login successful",
@@ -69,11 +63,7 @@ export async function login (req, res) {
  */
 export async function logout (req, res) {
   try {
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict"
-    });
+    res.clearCookie("token", getAuthCookieOptions());
 
     return res.status(200).json({ message: "session terminated" });
   } catch (error) {
