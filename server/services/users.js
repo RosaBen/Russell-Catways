@@ -37,3 +37,29 @@ export async function createNewUser (req, res) {
     return res.status(501).json({ message: "server error" });
   }
 }
+
+/**
+ * Get all users
+ *
+ * @async
+ * @route GET/users
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns {Promise} 
+ * @access Protected
+ */
+export async function getAllUsers (req, res) {
+  try {
+    const users = await User.find().select("-password");
+    if (!users) {
+      return res.status(404).json({ message: "there are no users yet" });
+    }
+
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(501).json({
+      message: "server error"
+    });
+  }
+}
