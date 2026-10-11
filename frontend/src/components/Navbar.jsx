@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-export default function Navbar({ classNav, onClick }) {
+export default function Navbar({ classNav, onClick, logout }) {
   const { isConnected } = useAuth();
   const activeStyle = {
     fontWeight: "bold",
@@ -19,6 +19,11 @@ export default function Navbar({ classNav, onClick }) {
       >
         Accueil
       </NavLink>
+      {isConnected && (
+        <button className="logout-btn" onClick={logout}>
+          Déconnexion
+        </button>
+      )}
       {!isConnected && (
         <NavLink
           to="/login"

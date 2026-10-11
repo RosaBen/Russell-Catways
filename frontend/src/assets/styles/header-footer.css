@@ -63,6 +63,13 @@ header nav a {
   margin-bottom: 1.5rem;
 }
 
+header .logout-btn {
+  background: var(--bg-links-btn-color);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--links-btn-color);
+}
+
 /* FOOTER */
 
 footer {

@@ -2,6 +2,7 @@
 import { Routes, Route } from "react-router-dom";
 
 // API
+import { logout } from "./assets/api/users";
 
 // Pages
 import Home from "./pages/Home";
@@ -15,18 +16,30 @@ import "./assets/styles/App.css";
 import "./assets/styles/header-footer.css";
 import "./assets/styles/forms.css";
 
-import useToggle from "./hooks/useToggle";
+import { useAuth } from "./contexts/AuthContext";
 
 function App() {
+  const { logoutClean } = useAuth();
+
   const handleChange = (setForm) => (e) => {
     setForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
+
+  async function handleLogout() {
+    try {
+      await logout();
+      logoutClean();
+      navigate("/");
+    } catch (error) {
+      console.error("login error", error);
+    }
+  }
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="/" element={<Layout logout={handleLogout} />}>
         <Route index element={<Home />} />
         <Route path="login" element={<Login handleChange={handleChange} />} />
       </Route>
