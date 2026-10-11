@@ -8,19 +8,22 @@ import { logout } from "./assets/api/users";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 
 // Components
 import Layout from "./components/Layouts/Layout";
+import DashboardLayout from "./components/Layouts/DashboardLayout";
 
 // Styles
 import "./assets/styles/App.css";
 import "./assets/styles/header-footer.css";
 import "./assets/styles/forms.css";
+import "./assets/styles/dashboard.css";
 
 import { useAuth } from "./contexts/AuthContext";
 
 function App() {
-  const { logoutClean } = useAuth();
+  const { logoutClean, isConnected } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (setForm) => (e) => {
@@ -49,6 +52,14 @@ function App() {
           path="register"
           element={<Register handleChange={handleChange} />}
         />
+        {isConnected && (
+          <Route
+            path="dashboard"
+            element={<DashboardLayout logout={handleLogout} />}
+          >
+            <Route index element={<Dashboard />} />
+          </Route>
+        )}
       </Route>
     </Routes>
   );

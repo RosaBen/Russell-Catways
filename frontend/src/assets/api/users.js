@@ -73,3 +73,25 @@ export async function createUser (user) {
 
   return response.json();
 }
+
+/**
+ * get all users
+ *
+ * @export
+ * @async
+ * @returns {Promise} 
+ */
+export async function getAllUsers () {
+  const response = await fetch(`${API_URL}/users`, {
+    method: "get",
+    credentials: "include",
+    cache: "no-store"
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}

@@ -1,7 +1,9 @@
 import Navbar from "./Navbar";
+import { useAuth } from "../contexts/AuthContext";
 import { TiThMenu } from "react-icons/ti";
 
 export default function Header({ showMenu, openMenu, closeMenu, logout }) {
+  const { isConnected } = useAuth();
   return (
     <header>
       <h1>Russell's Catways</h1>
@@ -17,14 +19,21 @@ export default function Header({ showMenu, openMenu, closeMenu, logout }) {
       )}
       {showMenu && (
         <div className="modal-menu">
-          <Navbar
-            classNav="mobile-nav"
-            onclick={() => closeMenu()}
-            logout={logout}
-          />
-          <button aria-label="Fermer le menu" onClick={() => closeMenu()}>
-            X
-          </button>
+          <div className="nav-links">
+            <Navbar
+              classNav="mobile-nav"
+              onclick={() => closeMenu()}
+              logout={logout}
+            />
+            <button aria-label="Fermer le menu" onClick={() => closeMenu()}>
+              X
+            </button>
+          </div>
+          {isConnected && (
+            <button className="logout-btn" onClick={logout}>
+              Déconnexion
+            </button>
+          )}
         </div>
       )}
     </header>
