@@ -1,9 +1,7 @@
 import Navbar from "./Navbar";
 import { TiThMenu } from "react-icons/ti";
-import useToggle from "../hooks/useToggle";
 
-export default function Header() {
-  const [showMenu, , openMenu, closeMenu] = useToggle(false);
+export default function Header({ showMenu, openMenu, closeMenu }) {
   return (
     <header>
       <h1>Russell's Catways</h1>

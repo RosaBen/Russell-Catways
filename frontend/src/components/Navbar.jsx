@@ -1,10 +1,12 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar({ classNav, onClick }) {
+  const { isConnected } = useAuth();
   const activeStyle = {
     fontWeight: "bold",
     textDecoration: "underline",
-    color: "#161616",
+    textTransform: "uppercase",
   };
   return (
     <nav className={classNav}>
@@ -17,6 +19,17 @@ export default function Navbar({ classNav, onClick }) {
       >
         Accueil
       </NavLink>
+      {!isConnected && (
+        <NavLink
+          to="/login"
+          // target="_blank"
+          // rel="noopener noreferrer"
+          style={({ isActive }) => (isActive ? activeStyle : null)}
+          onClick={() => onClick()}
+        >
+          Connexion
+        </NavLink>
+      )}
     </nav>
   );
 }
