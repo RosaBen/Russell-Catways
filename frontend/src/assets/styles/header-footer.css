@@ -1,0 +1,73 @@
+header,
+footer {
+  background: var(--bg-color);
+  height: 80px;
+}
+
+header h1,
+header nav a,
+footer a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* HEADER */
+
+header {
+  display: flex;
+  place-items: center;
+  justify-content: space-around;
+  border-bottom: 0.5rem solid var(--text-color);
+  position: relative;
+  z-index: 3;
+}
+
+header h1 {
+  font-size: 1.5rem;
+}
+
+header > button {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+.modal-menu {
+  position: absolute;
+  bottom: -1rem;
+  background: white;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-left: 1rem;
+  z-index: 2;
+}
+
+.modal-menu > button {
+  background: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--bg-color);
+  padding-right: 0.5rem;
+}
+
+/* FOOTER */
+
+footer {
+  background: var(--bg-color);
+  height: 100px;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  justify-content: center;
+  border-top: 0.5rem solid var(--text-color);
+  gap: 1rem;
+}
+
+footer a:nth-child(2) {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

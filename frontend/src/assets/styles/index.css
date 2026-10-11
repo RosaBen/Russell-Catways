@@ -1,0 +1,35 @@
+*,
+*::after,
+*::before,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+a,
+button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  list-style: none;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: grey;
+}
+
+.container {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+}
+
+button,
+a {
+  cursor: pointer;
+}
