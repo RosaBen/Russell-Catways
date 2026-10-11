@@ -32,7 +32,8 @@ header > button {
 
 .modal-menu {
   position: absolute;
-  bottom: -5rem;
+  height: 110px;
+  bottom: -6.5rem;
   background: var(--bg-links-btn-color);
   left: 0;
   width: 100%;

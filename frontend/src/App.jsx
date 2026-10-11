@@ -1,5 +1,5 @@
 // React
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 // API
 import { logout } from "./assets/api/users";
@@ -7,6 +7,7 @@ import { logout } from "./assets/api/users";
 // Pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 // Components
 import Layout from "./components/Layouts/Layout";
@@ -20,6 +21,7 @@ import { useAuth } from "./contexts/AuthContext";
 
 function App() {
   const { logoutClean } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (setForm) => (e) => {
     setForm((prev) => ({
@@ -37,11 +39,16 @@ function App() {
       console.error("login error", error);
     }
   }
+
   return (
     <Routes>
       <Route path="/" element={<Layout logout={handleLogout} />}>
         <Route index element={<Home />} />
         <Route path="login" element={<Login handleChange={handleChange} />} />
+        <Route
+          path="register"
+          element={<Register handleChange={handleChange} />}
+        />
       </Route>
     </Routes>
   );

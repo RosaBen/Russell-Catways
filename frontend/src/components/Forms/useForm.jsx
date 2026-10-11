@@ -3,9 +3,10 @@ import { useLocation } from "react-router-dom";
 export default function UserForm({ handleChange, btnText, form, submit }) {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
+  const isRegisterPage = location.pathname === "/register";
   return (
     <form className="user-form" id="user-form" onSubmit={submit} noValidate>
-      {!isLoginPage && (
+      {isRegisterPage && (
         <label>
           Nom d'utilisateur:
           <input
@@ -21,7 +22,7 @@ export default function UserForm({ handleChange, btnText, form, submit }) {
           />
         </label>
       )}
-      {isLoginPage && (
+      {(isLoginPage || isRegisterPage) && (
         <label>
           Email:
           <input
@@ -35,7 +36,7 @@ export default function UserForm({ handleChange, btnText, form, submit }) {
           />
         </label>
       )}
-      {isLoginPage && (
+      {(isLoginPage || isRegisterPage) && (
         <label>
           Mot de passe:{" "}
           <input

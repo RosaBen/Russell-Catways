@@ -19,6 +19,17 @@ export default function Navbar({ classNav, onClick, logout }) {
       >
         Accueil
       </NavLink>
+      {!isConnected && (
+        <NavLink
+          to="/register"
+          // target="_blank"
+          // rel="noopener noreferrer"
+          style={({ isActive }) => (isActive ? activeStyle : null)}
+          onClick={() => onClick()}
+        >
+          Créer un compte
+        </NavLink>
+      )}
       {isConnected && (
         <button className="logout-btn" onClick={logout}>
           Déconnexion

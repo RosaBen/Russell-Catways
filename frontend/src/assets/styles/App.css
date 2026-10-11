@@ -1,3 +1,5 @@
+/* CSS for home, login , register, main actions */
+
 :root {
   --text-color: #f0f0f0;
   --bg-color: #175959;
@@ -72,13 +74,15 @@
   letter-spacing: 1px;
 }
 
-/* LOGIN */
+/* LOGIN/REGISTER */
 
-.login-page form {
+.login-page form,
+.register-page form {
   margin-bottom: 1.5rem;
 }
 
-.login-page a {
+.login-page a,
+.register-page a {
   font-weight: 700;
   color: var(--links-btn-color);
   display: flex;
