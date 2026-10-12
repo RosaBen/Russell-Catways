@@ -25,11 +25,5 @@ export default function EditCreateButtons({
     >
       {textBtn}
     </button>
-    // <div className="edit-del-btns">
-
-    //   <button className="delete-btn red" onClick={handleDelete}>
-    //     Supprimer
-    //   </button>
-    // </div>
   );
 }

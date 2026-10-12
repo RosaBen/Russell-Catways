@@ -40,3 +40,27 @@ form button[type="submit"] {
 .user-form input:focus {
   border: 3px solid var(--bg-links-btn-color);
 }
+
+.green {
+  background: var(--bg-color);
+  color: var(--text-color);
+  text-transform: uppercase;
+}
+
+.blue {
+  background: blue;
+  color: var(--text-color);
+  text-transform: uppercase;
+}
+
+.orange {
+  background: #7a5000;
+  color: var(--text-color);
+  text-transform: uppercase;
+}
+
+.red {
+  background: #ad0000;
+  color: var(--text-color);
+  text-transform: uppercase;
+}

@@ -95,3 +95,47 @@ export async function getAllUsers () {
 
   return data;
 }
+
+/**
+ * edit a user 
+ *
+ * @export
+ * @param {email, userdata}
+ * @async
+ * @returns {Promise} 
+ */
+export async function editUser (email, user) {
+  const response = await fetch(`${API_URL}/users/${email}`, {
+    method: "put",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "include",
+    body: JSON.stringify(user)
+  });
+  if (!response.ok) {
+    throw new Error("unable to edit user");
+  }
+
+  return response.json();
+}
+
+/**
+ * delete a user 
+ *
+ * @export
+ * @param {email}
+ * @async
+ * @returns {Promise} 
+ */
+export async function deleteUser (email) {
+  const response = await fetch(`${API_URL}/users/${email}`, {
+    method: "delete",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("unable to delete user");
+  }
+
+  return response.json();
+}

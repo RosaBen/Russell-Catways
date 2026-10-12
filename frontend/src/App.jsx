@@ -28,12 +28,13 @@ import useToggle from "./hooks/useToggle";
 
 function App() {
   const { logoutClean, isAuthReady, isConnected } = useAuth();
-  const [isOpen, , openForm, closeForm] = useToggle(false);
+  const [isCreate, , openCreateForm, closeCreateForm] = useToggle(false);
   const [createUserForm, setCreateUserForm] = useState({
     username: "",
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
 
   const handleChange = (setForm) => (e) => {
@@ -50,10 +51,10 @@ function App() {
       await createUser(createUserForm);
 
       if (isConnected) {
-        closeForm();
+        closeCreateForm();
         navigate("/dashboard/users");
       } else {
-        closeForm();
+        closeCreateForm();
         navigate("/login");
       }
     } catch (error) {
@@ -108,9 +109,9 @@ function App() {
                 setNewUserForm={setCreateUserForm}
                 newUserForm={createUserForm}
                 handleNewUser={handleCreateUser}
-                isOpen={isOpen}
-                openForm={openForm}
-                closeForm={closeForm}
+                isOpen={isCreate}
+                openForm={openCreateForm}
+                closeCreateForm={closeCreateForm}
               />
             }
           />

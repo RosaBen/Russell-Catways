@@ -1,8 +1,12 @@
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import UserForm from "../../components/Forms/useForm";
+import UserCard from "../../components/Cards/UserCard";
+import { getAllUsers } from "../../assets/api/users";
 import { IoMdReturnLeft } from "react-icons/io";
 
 import EditCreateButtons from "../../components/EditCreateButton";
-import { NavLink } from "react-router-dom";
+
 export default function Users({
   handleChange,
   setNewUserForm,
@@ -12,6 +16,58 @@ export default function Users({
   openForm,
   closeForm,
 }) {
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [users, setUsers] = useState([]);
+
+  const handleUserUpdated = (previousEmail, updatedUser) => {
+    setUsers((prev) =>
+      prev.map((usr) =>
+        usr.email === previousEmail
+          ? {
+              ...usr,
+              ...updatedUser,
+            }
+          : usr,
+      ),
+    );
+  };
+
+  const handleUserDeleted = (deletedEmail) => {
+    setUsers((prev) => prev.filter((usr) => usr.email !== deletedEmail));
+  };
+
+  async function fetchUsers() {
+    setLoadingUsers(true);
+    try {
+      const data = await getAllUsers();
+      setUsers(data);
+    } catch (error) {
+      console.error(error.message);
+      setUsers([]);
+    } finally {
+      setLoadingUsers(false);
+    }
+  }
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  if (loadingUsers) {
+    return <p>Chargement ...</p>;
+  }
+
+  const userslist = users.map((user) => {
+    return (
+      <UserCard
+        key={user._id}
+        user={user}
+        handleChange={handleChange}
+        handleUserUpdated={handleUserUpdated}
+        handleUserDeleted={handleUserDeleted}
+      />
+    );
+  });
+
   return (
     <main className="users-page">
       <h1>Utilisateurs</h1>
@@ -53,7 +109,16 @@ export default function Users({
           </NavLink>
         </div>
       )}
-      {!isOpen && <div className="list-users"></div>}
+      <table className="users-table">
+        <thead>
+          <tr>
+            <th>Nom utilisateur</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>{userslist}</tbody>
+      </table>
     </main>
   );
 }
