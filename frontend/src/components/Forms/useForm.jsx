@@ -4,9 +4,10 @@ export default function UserForm({ handleChange, btnText, form, submit }) {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
   const isRegisterPage = location.pathname === "/register";
+  const isUsersPage = location.pathname === "/dashboard/users";
   return (
     <form className="user-form" id="user-form" onSubmit={submit} noValidate>
-      {isRegisterPage && (
+      {(isRegisterPage || isUsersPage) && (
         <label>
           Nom d'utilisateur:
           <input
@@ -22,7 +23,7 @@ export default function UserForm({ handleChange, btnText, form, submit }) {
           />
         </label>
       )}
-      {(isLoginPage || isRegisterPage) && (
+      {(isLoginPage || isRegisterPage || isUsersPage) && (
         <label>
           Email:
           <input
@@ -36,7 +37,7 @@ export default function UserForm({ handleChange, btnText, form, submit }) {
           />
         </label>
       )}
-      {(isLoginPage || isRegisterPage) && (
+      {(isLoginPage || isRegisterPage || isUsersPage) && (
         <label>
           Mot de passe:{" "}
           <input

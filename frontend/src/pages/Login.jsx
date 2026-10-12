@@ -22,7 +22,7 @@ export default function Login({ handleChange }) {
         email: "",
         password: "",
       });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       sessionStorage.removeItem("logged");
       setIsConnected(false);
