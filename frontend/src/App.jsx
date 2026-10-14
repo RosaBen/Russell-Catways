@@ -144,6 +144,8 @@ function App() {
     fetchCatways();
   }, [isConnected]);
 
+  const catwaysNumberList = catways.map((catway) => catway.catwayNumber);
+
   if (!isAuthReady) {
     return null;
   }
@@ -198,6 +200,9 @@ function App() {
                 loadingCatways={loadingCatways}
                 setLoadingCatways={setLoadingCatways}
                 handleCatwayUpdated={handleCatwayUpdated}
+                listCatwayNumber={catwaysNumberList}
+                setCatways={setCatways}
+                fetchCatways={fetchCatways}
               />
             }
           />

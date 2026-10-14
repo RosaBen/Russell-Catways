@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import UserForm from "../components/Forms/useForm";
+import UserForm from "../components/Forms/UserForm";
 import { IoMdReturnLeft } from "react-icons/io";
 
 export default function Register({

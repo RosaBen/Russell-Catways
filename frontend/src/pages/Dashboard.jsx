@@ -3,7 +3,7 @@ import { IoMdReturnLeft } from "react-icons/io";
 import { editUser, getUser } from "../assets/api/users";
 import { useAuth } from "../contexts/AuthContext";
 import { useEffect, useState } from "react";
-import UserForm from "../components/Forms/useForm";
+import UserForm from "../components/Forms/UserForm";
 import useToggle from "../hooks/useToggle";
 import EditCreateButtons from "../components/EditCreateButton";
 
