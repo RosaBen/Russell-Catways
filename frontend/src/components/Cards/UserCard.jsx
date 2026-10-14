@@ -33,7 +33,6 @@ export default function UserCard({
       };
       await editUser(previousEmail, payload);
       handleUserUpdated?.(previousEmail, payload);
-      sessionStorage.setItem("selectedUser", payload.email);
       closeEditing();
     } catch (error) {
       console.error(error.message);
