@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 // API
 import { logout, createUser, getAllUsers } from "./assets/api/users";
+import { getAllCatways } from "./assets/api/catways";
 
 // Pages
 import Home from "./pages/Home";
@@ -11,6 +12,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/dashboard/Users";
+import Catways from "./pages/dashboard/Catways";
 
 // Components
 import Layout from "./components/Layouts/Layout";
@@ -22,6 +24,9 @@ import "./assets/styles/header-footer.css";
 import "./assets/styles/forms.css";
 import "./assets/styles/dashboard.css";
 import "./assets/styles/users.css";
+import "./assets/styles/table.css";
+import "./assets/styles/catways.css";
+import "./assets/styles/responsive.css";
 
 import { useAuth } from "./contexts/AuthContext";
 import useToggle from "./hooks/useToggle";
@@ -29,7 +34,9 @@ import useToggle from "./hooks/useToggle";
 function App() {
   const { logoutClean, isAuthReady, isConnected } = useAuth();
   const [users, setUsers] = useState([]);
+  const [catways, setCatways] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingCatways, setLoadingCatways] = useState(true);
   const [isCreate, , openCreateForm, closeCreateForm] = useToggle(false);
   const [createUserForm, setCreateUserForm] = useState({
     username: "",
@@ -59,6 +66,19 @@ function App() {
     }
   }
 
+  async function fetchCatways() {
+    setLoadingCatways(true);
+    try {
+      const data = await getAllCatways();
+      setCatways(data);
+    } catch (error) {
+      console.error(error.message);
+      setCatways([]);
+    } finally {
+      setLoadingCatways(false);
+    }
+  }
+
   const handleUserUpdated = (previousEmail, updatedUser) => {
     setUsers((prev) =>
       prev.map((usr) =>
@@ -68,6 +88,19 @@ function App() {
               ...updatedUser,
             }
           : usr,
+      ),
+    );
+  };
+
+  const handleCatwayUpdated = (previousCatwayNumber, updatedCatway) => {
+    setCatways((prev) =>
+      prev.map((cat) =>
+        cat.catwayNumber === previousCatwayNumber
+          ? {
+              ...cat,
+              ...updatedCatway,
+            }
+          : cat,
       ),
     );
   };
@@ -106,8 +139,10 @@ function App() {
   }
 
   useEffect(() => {
+    if (!isConnected) return;
     fetchUsers();
-  }, []);
+    fetchCatways();
+  }, [isConnected]);
 
   if (!isAuthReady) {
     return null;
@@ -148,6 +183,21 @@ function App() {
                 users={users}
                 setUsers={setUsers}
                 loadingUsers={loadingUsers}
+              />
+            }
+          />
+          <Route
+            path="catways"
+            element={
+              <Catways
+                handleChange={handleChange}
+                isOpen={isCreate}
+                openForm={openCreateForm}
+                closeForm={closeCreateForm}
+                catways={catways}
+                loadingCatways={loadingCatways}
+                setLoadingCatways={setLoadingCatways}
+                handleCatwayUpdated={handleCatwayUpdated}
               />
             }
           />

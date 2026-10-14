@@ -5,6 +5,8 @@ form {
   border-radius: 1rem;
 }
 
+/* USERS */
+
 .user-form {
   display: flex;
   flex-direction: column;

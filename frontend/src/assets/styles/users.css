@@ -23,61 +23,7 @@
   gap: 0.5rem;
 }
 
-.users-table {
-  margin-top: 2rem;
-  padding-top: 1rem;
-}
-
-.users-table thead {
-  display: none;
-}
-
-.users-table,
-.users-table tbody {
-  display: block;
-  width: 100%;
-}
-
-.users-table tbody tr {
-  display: block;
-  margin-bottom: 1rem;
-  padding: 0.5rem 0.75rem;
-  border: 3px solid var(--bg-color);
-  border-radius: 0.6rem;
-}
-
-.users-table tbody td {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--bg-links-btn-color);
-  overflow-wrap: anywhere;
-}
-
-.users-table tbody td::before {
-  content: attr(data-label);
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.users-table tbody td.actions {
-  justify-content: space-around;
-  border-bottom: none;
-}
-
-.users-table tbody td.actions::before {
-  content: none;
-}
-
 .users-table input {
   width: 100%;
   min-width: 0;
-}
-
-.users-table tbody td.actions button {
-  padding: 0.5rem 0.8rem;
-  font-size: 1rem;
-  border-radius: 0.5rem;
 }
