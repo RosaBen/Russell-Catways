@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import UserForm from "../../components/Forms/useForm";
 import UserCard from "../../components/Cards/UserCard";
-import { getAllUsers } from "../../assets/api/users";
+
 import { IoMdReturnLeft } from "react-icons/io";
 
 import EditCreateButtons from "../../components/EditCreateButton";
@@ -15,42 +14,14 @@ export default function Users({
   isOpen,
   openForm,
   closeForm,
+  handleUserUpdated,
+  setUsers,
+  users,
+  loadingUsers,
 }) {
-  const [loadingUsers, setLoadingUsers] = useState(true);
-  const [users, setUsers] = useState([]);
-
-  const handleUserUpdated = (previousEmail, updatedUser) => {
-    setUsers((prev) =>
-      prev.map((usr) =>
-        usr.email === previousEmail
-          ? {
-              ...usr,
-              ...updatedUser,
-            }
-          : usr,
-      ),
-    );
-  };
-
   const handleUserDeleted = (deletedEmail) => {
     setUsers((prev) => prev.filter((usr) => usr.email !== deletedEmail));
   };
-
-  async function fetchUsers() {
-    setLoadingUsers(true);
-    try {
-      const data = await getAllUsers();
-      setUsers(data);
-    } catch (error) {
-      console.error(error.message);
-      setUsers([]);
-    } finally {
-      setLoadingUsers(false);
-    }
-  }
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   if (loadingUsers) {
     return <p>Chargement ...</p>;

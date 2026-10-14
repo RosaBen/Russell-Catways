@@ -5,6 +5,7 @@ import { editUser, deleteUser } from "../../assets/api/users";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdModeEditOutline } from "react-icons/md";
 import useToggle from "../../hooks/useToggle";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function UserCard({
   user,
@@ -12,6 +13,9 @@ export default function UserCard({
   handleUserUpdated,
   handleUserDeleted,
 }) {
+  const { currentUserEmail } = useAuth();
+
+  const isCurrentUser = user.email === currentUserEmail;
   const [isEditing, , openEditing, closeEditing] = useToggle(false);
   const navigate = useNavigate();
   const [editUserForm, setEditUserForm] = useState({
@@ -39,6 +43,10 @@ export default function UserCard({
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
+      const connectedUser = sessionStorage.getItem("logged");
+      if (connectedUser === user.email) {
+        return;
+      }
       await deleteUser(user.email);
       handleUserDeleted?.(user.email);
       sessionStorage.removeItem("selectedUser");
@@ -72,35 +80,37 @@ export default function UserCard({
           user.email
         )}
       </td>
-      <td data-label="Actions" className="actions">
-        {isEditing ? (
-          <button onClick={handleEdit} className="save.btn blue">
-            Enregistrer
+      {!isCurrentUser && (
+        <td data-label="Actions" className="actions">
+          {isEditing ? (
+            <button onClick={handleEdit} className="save.btn blue">
+              Enregistrer
+            </button>
+          ) : (
+            <EditCreateButtons
+              ariaExpanded={isEditing}
+              ariaLabel="Modifier les infos"
+              ariaControls="user-form"
+              action="edit"
+              textBtn={<MdModeEditOutline />}
+              onClick={() => {
+                setEditUserForm({
+                  username: user.username,
+                  email: user.email,
+                });
+                openEditing();
+              }}
+            />
+          )}
+          <button
+            className="delete-btn red"
+            aria-label={`Supprimer ${user.username}`}
+            onClick={handleDelete}
+          >
+            <FaRegTrashAlt />
           </button>
-        ) : (
-          <EditCreateButtons
-            ariaExpanded={isEditing}
-            ariaLabel="Modifier les infos"
-            ariaControls="user-form"
-            action="edit"
-            textBtn={<MdModeEditOutline />}
-            onClick={() => {
-              setEditUserForm({
-                username: user.username,
-                email: user.email,
-              });
-              openEditing();
-            }}
-          />
-        )}
-        <button
-          className="delete-btn red"
-          aria-label={`Supprimer ${user.username}`}
-          onClick={handleDelete}
-        >
-          <FaRegTrashAlt />
-        </button>
-      </td>
+        </td>
+      )}
     </tr>
   );
 }

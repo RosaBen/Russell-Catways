@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import hasTokenCookie from "../assets/utils/utils";
 
 const AuthContext = createContext(null);
 
@@ -10,10 +11,12 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const storedEmail = sessionStorage.getItem("logged");
-    if (storedEmail) {
+    const tokenExists = hasTokenCookie();
+    if (storedEmail && tokenExists) {
       setCurrentUserEmail(storedEmail);
       setIsConnected(true);
     } else {
+      sessionStorage.removeItem("logged");
       setCurrentUserEmail(null);
       setIsConnected(false);
     }
@@ -53,6 +56,7 @@ export function AuthProvider({ children }) {
       setCurrentUser,
       cleanSessionStorage,
       setIsConnected,
+      setCurrentUserEmail,
     }),
     [isConnected, currentUserEmail, isAuthReady, currentUser],
   );

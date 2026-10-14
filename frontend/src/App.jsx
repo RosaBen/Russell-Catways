@@ -1,8 +1,9 @@
 // React
 import { Routes, Route, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 // API
-import { logout, createUser } from "./assets/api/users";
+import { logout, createUser, getAllUsers } from "./assets/api/users";
 
 // Pages
 import Home from "./pages/Home";
@@ -23,11 +24,12 @@ import "./assets/styles/dashboard.css";
 import "./assets/styles/users.css";
 
 import { useAuth } from "./contexts/AuthContext";
-import { useState } from "react";
 import useToggle from "./hooks/useToggle";
 
 function App() {
   const { logoutClean, isAuthReady, isConnected } = useAuth();
+  const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
   const [isCreate, , openCreateForm, closeCreateForm] = useToggle(false);
   const [createUserForm, setCreateUserForm] = useState({
     username: "",
@@ -44,12 +46,38 @@ function App() {
     }));
   };
 
+  async function fetchUsers() {
+    setLoadingUsers(true);
+    try {
+      const data = await getAllUsers();
+      setUsers(data);
+    } catch (error) {
+      console.error(error.message);
+      setUsers([]);
+    } finally {
+      setLoadingUsers(false);
+    }
+  }
+
+  const handleUserUpdated = (previousEmail, updatedUser) => {
+    setUsers((prev) =>
+      prev.map((usr) =>
+        usr.email === previousEmail
+          ? {
+              ...usr,
+              ...updatedUser,
+            }
+          : usr,
+      ),
+    );
+  };
+
   const handleCreateUser = async (e) => {
     e.preventDefault();
 
     try {
       await createUser(createUserForm);
-
+      fetchUsers();
       if (isConnected) {
         closeCreateForm();
         navigate("/dashboard/users");
@@ -77,6 +105,10 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
   if (!isAuthReady) {
     return null;
   }
@@ -100,7 +132,7 @@ function App() {
           path="dashboard"
           element={<DashboardLayout logout={handleLogout} />}
         >
-          <Route index element={<Dashboard />} />
+          <Route index element={<Dashboard handleChange={handleChange} />} />
           <Route
             path="users"
             element={
@@ -112,6 +144,10 @@ function App() {
                 isOpen={isCreate}
                 openForm={openCreateForm}
                 closeCreateForm={closeCreateForm}
+                handleUserUpdated={handleUserUpdated}
+                users={users}
+                setUsers={setUsers}
+                loadingUsers={loadingUsers}
               />
             }
           />

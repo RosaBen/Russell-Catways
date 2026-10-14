@@ -97,6 +97,27 @@ export async function getAllUsers () {
 }
 
 /**
+ * get a user by email
+ *
+ * @export
+ * @param {email}
+ * @async
+ * @returns {Promise} 
+ */
+export async function getUser (email) {
+  const response = await fetch(`${API_URL}/users/${email}`, {
+    method: "GET",
+    credentials: "include",
+    cache: "no-store"
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+  return data;
+}
+
+/**
  * edit a user 
  *
  * @export

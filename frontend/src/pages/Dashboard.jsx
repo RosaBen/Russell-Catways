@@ -1,9 +1,69 @@
 import { useNavigate } from "react-router-dom";
 import { IoMdReturnLeft } from "react-icons/io";
+import { editUser, getUser } from "../assets/api/users";
+import { useAuth } from "../contexts/AuthContext";
+import { useEffect, useState } from "react";
+import UserForm from "../components/Forms/useForm";
+import useToggle from "../hooks/useToggle";
+import EditCreateButtons from "../components/EditCreateButton";
 
-export default function Dashboard() {
+export default function Dashboard({ handleChange }) {
+  const { currentUser, currentUserEmail, setCurrentUser, setCurrentUserEmail } =
+    useAuth();
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [isOpen, , openForm, closeForm] = useToggle(false);
+  const [editForm, setEditForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const today = new Date();
   const navigate = useNavigate();
+
+  const fetchCurrentUser = async () => {
+    if (!currentUserEmail) {
+      setCurrentUser(null);
+      setLoadingUser(false);
+      return;
+    }
+
+    setLoadingUser(true);
+    try {
+      const userData = await getUser(currentUserEmail);
+      setCurrentUser(userData);
+    } catch (error) {
+      console.error(error.message);
+      setUser(null);
+    } finally {
+      setLoadingUser(false);
+    }
+  };
+  useEffect(() => {
+    fetchCurrentUser();
+  }, [currentUserEmail]);
+
+  async function handleEdit(e) {
+    e.preventDefault();
+    try {
+      const currenEmail = currentUserEmail;
+      await editUser(currenEmail, editForm);
+      const nextEmail = editForm.email?.trim() || currenEmail;
+      if (nextEmail !== currenEmail) {
+        sessionStorage.setItem("logged", nextEmail);
+        setCurrentUserEmail(nextEmail);
+      } else {
+        const newData = await getUser(currenEmail);
+        setCurrentUser(newData);
+      }
+      closeForm();
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  if (loadingUser) {
+    return <p>Chargement ...</p>;
+  }
   return (
     <main className="dashboard-page">
       <h1>Tableau de Bord</h1>
@@ -21,10 +81,47 @@ export default function Dashboard() {
         <IoMdReturnLeft /> Retour à la page précédente
       </button>
       <h2>
-        Welcome <span>Toto</span>
+        Welcome <span>{currentUser.username}</span>
       </h2>
+
+      {!isOpen && (
+        <EditCreateButtons
+          className="edit-btn orange"
+          ariaExpanded={isOpen}
+          ariaLabel="Modifier mon profil"
+          ariaControls="user-form"
+          action="edit"
+          textBtn="Modifier le profil"
+          onClick={() => {
+            setEditForm({
+              username: currentUser.username,
+              email: currentUser.email,
+              password: "",
+            });
+            openForm();
+          }}
+        />
+      )}
+
+      {isOpen && (
+        <div className="modal-profil-edit">
+          <UserForm
+            handleChange={handleChange(setEditForm)}
+            btnText="Enregistrer"
+            submit={handleEdit}
+            form={editForm}
+          />
+          <button
+            aria-label="annuler la modification du profil"
+            onClick={() => closeForm()}
+          >
+            X
+          </button>
+        </div>
+      )}
+
       <div className="dashboard-infos">
-        <p>user@text.com</p>
+        <p>{currentUser.email}</p>
         <p>
           {today.toLocaleDateString("fr-FR", {
             weekday: "long",

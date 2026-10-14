@@ -69,6 +69,8 @@
 .dashboard-page h2 {
   color: var(--secondary-text-color);
   margin-bottom: 0.5rem;
+  text-transform: capitalize;
+  text-align: center;
 }
 
 .dashboard-infos {

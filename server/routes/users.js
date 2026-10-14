@@ -8,7 +8,7 @@ router.post("/", createNewUser);
 router.get("/", getAllUsers); //add middleware
 router.get("/:email", getUserByEmail);//add middleware
 router.put("/:email", editUser); //add middleware
-router.delete("/:email", deleteUser); //add middleware
+router.delete("/:email", protect, deleteUser); //add middleware
 
 
 export default router;
