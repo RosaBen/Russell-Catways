@@ -1,0 +1,111 @@
+/* dashbaord layout  and dashboad page */
+/* Layout */
+
+.dashboard-navlinks {
+  height: 130px;
+  background: var(--bg-links-btn-color);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 0 1rem;
+  gap: 1.5rem;
+}
+
+.dashboard-navlinks a {
+  text-decoration: none;
+  color: var(--links-btn-color);
+}
+
+.dashboard-logout-btn {
+  width: 200px;
+  padding: 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 1rem;
+  align-self: center;
+  color: var(--links-btn-color);
+}
+
+.dashboard-links {
+  display: grid;
+  grid-template-columns: 1fr, 1fr;
+  gap: 0.5rem;
+}
+
+.dashboard-links a:nth-child(1) {
+  grid-column: 1;
+}
+
+.dashboard-links a:nth-child(2) {
+  grid-column: 2;
+}
+.dashboard-links a:nth-child(3) {
+  grid-column: 1;
+}
+.dashboard-links a:nth-child(4) {
+  grid-column: 2;
+}
+
+/* Dashboard page */
+
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashboard-page a {
+  color: var(--links-btn-color);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.dashboard-page > button {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.dashboard-page .edit-btn {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.dashboard-page .modal-profil-edit {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  gap: 1rem;
+}
+
+.dashboard-page .close-btn {
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+}
+
+.dashboard-page > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.dashboard-page h2 {
+  color: var(--secondary-text-color);
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.dashboard-infos {
+  border: 3px solid var(--bg-color);
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+.dashboard-infos p {
+  margin-bottom: 1rem;
+}
+
+.dashboard-infos p:last-child {
+  font-weight: 700;
+  font-size: 1.3rem;
+}

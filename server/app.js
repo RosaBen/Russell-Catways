@@ -2,8 +2,6 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-
-
 import usersRouter from "./routes/users.js";
 import catwaysRouter from "./routes/catways.js";
 import reservationsRouter from "./routes/reservations.js";
@@ -17,9 +15,15 @@ initClientDbConnection();
 const app = express();
 
 app.use(cors({
-  exposedHeaders: ["Authorization"],
-  origin: "*"
+  origin: "http://localhost:5173",
+  // origin: "http://localhost:4173",
+  credentials: true
 }));
+
+// app.use(cors({
+//   exposedHeaders: ["Authorization"],
+//   origin: "*"
+// }));
 
 app.use(logger('dev'));
 app.use(express.json());

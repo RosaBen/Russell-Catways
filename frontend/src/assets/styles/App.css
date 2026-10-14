@@ -1,0 +1,91 @@
+/* CSS for home, login , register, main actions */
+
+:root {
+  --text-color: #f0f0f0;
+  --bg-color: #175959;
+  --border-color: #175959;
+  --box-shadow: 0px 2px 2px #d6d6d6;
+  --secondary-text-color: #175959;
+  --secondary-bg-color: #f0f0f0;
+  --links-btn-color: #161616;
+  --bg-links-btn-color: #2db4b4;
+}
+
+/* Overlay */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* Icons */
+
+.icon {
+  font-size: 2rem;
+}
+
+/* HOME */
+
+.home-description p {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.home-page h2 {
+  color: var(--secondary-text-color);
+  margin-bottom: 0.5rem;
+}
+
+.home-list-pages,
+.home-list-actions {
+  margin-bottom: 1rem;
+}
+
+.home-page ul {
+  padding-left: 3rem;
+}
+
+.home-page li {
+  list-style: disc;
+  line-height: 1.4;
+  text-transform: capitalize;
+}
+
+.home-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.home-links a {
+  color: var(--links-color);
+  font-weight: 700;
+}
+
+.home-links a:last-child {
+  text-decoration: none;
+  background: var(--bg-links-btn-color);
+  padding: 0.5rem 0.8rem;
+  border-radius: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* LOGIN/REGISTER */
+
+.login-page form,
+.register-page form {
+  margin-bottom: 1.5rem;
+}
+
+.login-page a,
+.register-page a {
+  font-weight: 700;
+  color: var(--links-btn-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

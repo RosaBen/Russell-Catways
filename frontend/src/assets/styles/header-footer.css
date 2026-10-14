@@ -1,0 +1,97 @@
+header,
+footer {
+  background: var(--bg-color);
+  height: 80px;
+}
+
+header h1,
+footer a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* HEADER */
+
+header {
+  display: flex;
+  place-items: center;
+  justify-content: space-around;
+  border-bottom: 0.5rem solid var(--text-color);
+  position: relative;
+  z-index: 3;
+}
+
+header h1 {
+  font-size: 1.5rem;
+}
+
+header > button {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+.modal-menu {
+  position: absolute;
+  height: 120px;
+  bottom: -7rem;
+  background: var(--bg-links-btn-color);
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  padding: 0.5rem 0 1rem 1rem;
+}
+
+.modal-menu .nav-links {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.modal-menu .nav-links > button {
+  background: var(--bg-links-btn-color);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--links-btn-color);
+  padding-right: 0.5rem;
+}
+
+header nav a {
+  color: var(--links-btn-color);
+  text-decoration: none;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+header .logout-btn {
+  background: var(--bg-links-btn-color);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--links-btn-color);
+}
+
+/* FOOTER */
+
+footer {
+  background: var(--bg-color);
+  height: 100px;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  justify-content: center;
+  border-top: 0.5rem solid var(--text-color);
+  gap: 1rem;
+}
+
+footer a:nth-child(2) {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

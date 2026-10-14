@@ -5,7 +5,7 @@ import { GetAllBookings } from "../services/reservations.js";
 
 const router = Router();
 
-router.get("/", protect, GetAllBookings); //add middleware
+router.get("/", GetAllBookings); //add middleware
 
 
 export default router;

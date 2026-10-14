@@ -161,10 +161,15 @@ export async function editUser (req, res) {
 export async function deleteUser (req, res) {
   try {
     const user = await User.findOne({ email: req.params.email });
+    console.log("reqbody", req.user.email, "reqparam", req.params.email);
+
+    if (req.user.email === req.params.email) {
+      return res.status(403).json({ message: "you cannot delete your own profil" });
+    }
     if (!user) {
       res.status(404).json({ message: "user not found" });
     }
-    await User.deleteOne(user);
+    await User.deleteOne({ _id: user._id });
     return res.status(200).json({ message: "user deleted" });
 
   } catch (error) {
