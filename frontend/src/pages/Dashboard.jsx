@@ -113,9 +113,10 @@ export default function Dashboard({ handleChange }) {
           />
           <button
             aria-label="annuler la modification du profil"
+            className="close-btn blue"
             onClick={() => closeForm()}
           >
-            X
+            Fermer le formulaire
           </button>
         </div>
       )}
