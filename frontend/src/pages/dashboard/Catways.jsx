@@ -12,7 +12,6 @@ export default function Catways({
   closeForm,
   catways,
   loadingCatways,
-  setLoadingCatways,
   handleCatwayUpdated,
   listCatwayNumber,
   setCatways,

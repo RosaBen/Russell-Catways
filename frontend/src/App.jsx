@@ -13,6 +13,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/dashboard/Users";
 import Catways from "./pages/dashboard/Catways";
+import Bookings from "./pages/dashboard/Bookings";
 
 // Components
 import Layout from "./components/Layouts/Layout";
@@ -206,6 +207,7 @@ function App() {
               />
             }
           />
+          <Route path="bookings" element={<Bookings />} />
         </Route>
       </Route>
     </Routes>
