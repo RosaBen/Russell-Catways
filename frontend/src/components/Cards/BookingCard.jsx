@@ -1,3 +1,6 @@
+import { FaRegTrashAlt } from "react-icons/fa";
+import { MdModeEditOutline } from "react-icons/md";
+import EditCreateButtons from "../EditCreateButton";
 export default function BookingCard({ booking, catwaysNumberList }) {
   if (!booking) return null;
 

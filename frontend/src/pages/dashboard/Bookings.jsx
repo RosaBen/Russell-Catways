@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import { getAllBookings } from "../../assets/api/bookings";
+import { getAllBookings, createBooking } from "../../assets/api/bookings";
 import BookingCard from "../../components/Cards/BookingCard";
 import BookingForm from "../../components/Forms/BookingForm";
+import EditCreateButtons from "../../components/EditCreateButton";
 
 export default function Bookings({
   handleChange,
-  catways,
   fetchCatways,
   catwaysNumberList,
+  isOpen,
+  openForm,
+  closeForm,
 }) {
   const [bookings, setBookings] = useState([]);
   const [loadingBookings, setLoadingBookings] = useState(true);
-  const [showForm, setShowForm] = useState(false);
   const [bookingForm, setBookingForm] = useState({
     catwayNumber: "",
     clientName: "",
@@ -33,6 +35,41 @@ export default function Bookings({
     }
   }
 
+  const handleNewBooking = async (e) => {
+    e.preventDefault();
+    try {
+      const newBooking = await createBooking(
+        bookingForm,
+        bookingForm.catwayNumber,
+      );
+      setBookings((prev) => [newBooking, ...prev]);
+      fetchBookings();
+      setBookingForm({
+        catwayNumber: "",
+        clientName: "",
+        boatName: "",
+        startDate: "",
+        endDate: "",
+      });
+      closeForm();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  // const handleBookingUpdated = (previousBookingNumber, updatedBooking) => {
+  //   setBookings((prev) =>
+  //     prev.map((book) =>
+  //       book._id === previousBookingNumber
+  //         ? {
+  //             ...book,
+  //             ...updatedBooking,
+  //           }
+  //         : book,
+  //     ),
+  //   );
+  // };
+
   useEffect(() => {
     fetchBookings();
     fetchCatways();
@@ -53,22 +90,61 @@ export default function Bookings({
   }
 
   return (
-    <main>
+    <main className="bookings-page">
       <h1>Réservations</h1>
-      <table className="bookings-table">
-        <thead>
-          <tr>
-            <th>Réservation</th>
-            <th>Ponton</th>
-            <th>Client</th>
-            <th>Bateau</th>
-            <th>date Entrée</th>
-            <th>Date sortie</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{bookingList}</tbody>
-      </table>
+      {!isOpen && (
+        <EditCreateButtons
+          ariaExpanded={isOpen}
+          ariaLabel="creer une nouvelle reservation"
+          ariaControls="booking-form"
+          action="create"
+          textBtn="Nouvelle Réservation"
+          onClick={() => {
+            setBookingForm({
+              catwayNumber: "",
+              clientName: "",
+              boatName: "",
+              startDate: "",
+              endDate: "",
+            });
+            openForm();
+          }}
+        />
+      )}
+      {isOpen && (
+        <div className="booking-form-modal">
+          <BookingForm
+            options={catwaysNumberList}
+            handleChange={handleChange(setBookingForm)}
+            btnText="Réserver"
+            form={bookingForm}
+            submit={handleNewBooking}
+          />
+          <button
+            onClick={() => closeForm()}
+            aria-label="Fermer le formulaire"
+            className="blue"
+          >
+            Annuler
+          </button>
+        </div>
+      )}
+      {!isOpen && (
+        <table className="bookings-table">
+          <thead>
+            <tr>
+              <th>Réservation</th>
+              <th>Ponton</th>
+              <th>Client</th>
+              <th>Bateau</th>
+              <th>date Entrée</th>
+              <th>Date sortie</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>{bookingList}</tbody>
+        </table>
+      )}
     </main>
   );
 }

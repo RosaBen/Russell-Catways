@@ -27,6 +27,7 @@ import "./assets/styles/dashboard.css";
 import "./assets/styles/users.css";
 import "./assets/styles/table.css";
 import "./assets/styles/catways.css";
+import "./assets/styles/bookings.css";
 import "./assets/styles/responsive.css";
 
 import { useAuth } from "./contexts/AuthContext";
@@ -215,6 +216,9 @@ function App() {
                 handleChange={handleChange}
                 fetchCatways={fetchCatways}
                 catwaysNumberList={catwaysNumberList}
+                isOpen={isCreate}
+                openForm={openCreateForm}
+                closeForm={closeCreateForm}
               />
             }
           />
