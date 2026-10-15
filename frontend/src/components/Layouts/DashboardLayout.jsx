@@ -36,7 +36,7 @@ export default function DashboardLayout({ logout }) {
             Pontons
           </NavLink>
           <NavLink
-            to="/dashboard/reservations"
+            to="/dashboard/bookings"
             // target="_blank"
             // rel="noopener noreferrer"
             style={({ isActive }) => (isActive ? activeStyle : null)}

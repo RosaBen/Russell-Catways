@@ -3,25 +3,19 @@ form {
   color: var(--text-color);
   padding: 1rem;
   border-radius: 1rem;
-}
-
-.user-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.user-form label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+label,
+legend {
   margin-bottom: 1rem;
-  text-decoration: underline;
   font-weight: 700;
   letter-spacing: 1px;
 }
 
-.user-form input {
+input {
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
@@ -37,7 +31,7 @@ form button[type="submit"] {
   color: var(--links-btn-color);
 }
 
-.user-form input:focus {
+input:focus {
   border: 3px solid var(--bg-links-btn-color);
 }
 
@@ -63,4 +57,61 @@ form button[type="submit"] {
   background: #ad0000;
   color: var(--text-color);
   text-transform: uppercase;
+}
+
+/* USERS */
+
+.user-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-decoration: underline;
+}
+
+/* CATWAYS */
+
+.catway-form-infos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.catway-form-infos .catway-numbers {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  gap: 1rem;
+}
+
+.catway-form-infos .catway-numbers select {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 1.2rem;
+  width: 50px;
+  padding: 0.2rem;
+  border-radius: 0.3rem;
+}
+
+.catway-form label:not(.catway-form fieldset label),
+.catway-form fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.catway-form fieldset legend,
+.catway-form label:not(.catway-form fieldset label) {
+  text-transform: uppercase;
+}
+
+.catway-form fieldset label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.catway-form textarea {
+  height: 400px;
+  padding: 0.5rem;
+  border-radius: 1rem;
 }
