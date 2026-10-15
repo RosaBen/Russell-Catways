@@ -2,13 +2,14 @@ import { useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdModeEditOutline } from "react-icons/md";
 import EditCreateButtons from "../EditCreateButton";
-import { EditCatway } from "../../assets/api/catways";
+import { EditCatway, deleteCatway } from "../../assets/api/catways";
 import useToggle from "../../hooks/useToggle";
 
 export default function CatwayCard({
   catway,
   handleChange,
   handleCatwayUpdated,
+  handleCatwayDeleted,
 }) {
   const [isEditing, , openEditing, closeEditing] = useToggle(false);
   const [editCatwayForm, setEditCatwayForm] = useState({
@@ -34,6 +35,17 @@ export default function CatwayCard({
       console.error(error.message);
     }
   };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      await deleteCatway(catway.catwayNumber);
+      handleCatwayDeleted?.(catway.catwayNumber);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <tr className="catway-card">
       <td data-label="Ponton">
@@ -115,6 +127,7 @@ export default function CatwayCard({
         <button
           className="delete-btn red"
           aria-label={`Supprimer Ponton ${catway.catwayNumber}`}
+          onClick={handleDelete}
         >
           <FaRegTrashAlt />
         </button>
