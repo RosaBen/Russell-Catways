@@ -9,7 +9,7 @@ export default function DashboardLayout({ logout }) {
   return (
     <>
       <div className="dashboard-navlinks">
-        <nav className="dashboard-links">
+        <nav className="dashboard-links desktop">
           <NavLink
             to="/dashboard"
             end

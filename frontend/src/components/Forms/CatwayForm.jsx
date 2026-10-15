@@ -1,3 +1,5 @@
+import { sortOptions } from "../../assets/utils/utils";
+
 export default function CatwayForm({
   handleChange,
   btnText,
@@ -5,12 +7,13 @@ export default function CatwayForm({
   submit,
   options,
 }) {
+  const sortedOptions = sortOptions(options);
   return (
-    <div className="catway-form-infos">
+    <div className="catway-form-infos ">
       <label className="catway-numbers">
         Pontons déjà existants
         <select name="catway-numbers" id="catway-numbers">
-          {options.map((option) => {
+          {sortedOptions.map((option) => {
             return (
               <option key={`catway-${option}`} value={option}>
                 {option}
@@ -20,7 +23,7 @@ export default function CatwayForm({
         </select>
       </label>
       <form
-        className="catway-form"
+        className="catway-form desktop"
         id="catway-form"
         onSubmit={submit}
         noValidate

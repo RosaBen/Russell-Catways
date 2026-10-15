@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar({ classNav, onClick, logout }) {
@@ -8,6 +8,8 @@ export default function Navbar({ classNav, onClick, logout }) {
     textDecoration: "underline",
     textTransform: "uppercase",
   };
+  const location = useLocation();
+
   return (
     <nav className={classNav}>
       <NavLink
@@ -15,7 +17,7 @@ export default function Navbar({ classNav, onClick, logout }) {
         // target="_blank"
         // rel="noopener noreferrer"
         style={({ isActive }) => (isActive ? activeStyle : null)}
-        onClick={() => onClick()}
+        onClick={() => onClick(location.pathname)}
       >
         Accueil
       </NavLink>

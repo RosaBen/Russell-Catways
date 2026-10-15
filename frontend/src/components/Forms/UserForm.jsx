@@ -7,7 +7,12 @@ export default function UserForm({ handleChange, btnText, form, submit }) {
   const isUsersPage = location.pathname === "/dashboard/users";
   const isDashboardPage = location.pathname === "/dashboard";
   return (
-    <form className="user-form" id="user-form" onSubmit={submit} noValidate>
+    <form
+      className="user-form desktop"
+      id="user-form"
+      onSubmit={submit}
+      noValidate
+    >
       {(isRegisterPage || isUsersPage || isDashboardPage) && (
         <label>
           Nom d'utilisateur:

@@ -25,7 +25,10 @@ export default function CatwayCard({
       const payload = {
         catwayNumber: editCatwayForm.catwayNumber || catway.catwayNumber,
         catwayType: editCatwayForm.catwayType?.trim() || catway.catwayType,
-        catwayState: editCatwayForm.catwayState || catway.catwayState,
+        catwayState:
+          editCatwayForm.catwayState !== ""
+            ? editCatwayForm.catwayState || catway.catwayState
+            : "Bon état",
       };
 
       await EditCatway(previousCatwayNumber, payload);

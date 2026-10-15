@@ -20,11 +20,7 @@ export default function Header({ showMenu, openMenu, closeMenu, logout }) {
       {showMenu && (
         <div className="modal-menu">
           <div className="nav-links">
-            <Navbar
-              classNav="mobile-nav"
-              onclick={() => closeMenu()}
-              logout={logout}
-            />
+            <Navbar classNav="mobile-nav" onclick={closeMenu} logout={logout} />
             <button aria-label="Fermer le menu" onClick={() => closeMenu()}>
               X
             </button>
@@ -36,6 +32,8 @@ export default function Header({ showMenu, openMenu, closeMenu, logout }) {
           )}
         </div>
       )}
+
+      <Navbar classNav="nav-desktop" />
     </header>
   );
 }

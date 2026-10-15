@@ -115,3 +115,49 @@ input:focus {
   padding: 0.5rem;
   border-radius: 1rem;
 }
+
+/* BOOKINGS */
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.booking-form > label:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--text-color);
+}
+
+.booking-form > label:first-child select {
+  border-radius: 1rem;
+  padding: 0.5rem 0.8rem;
+}
+
+.booking-form fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 2px solid var(--text-color);
+  gap: 0.5rem;
+}
+
+.booking-form fieldset label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
+.booking-form fieldset label input {
+  margin-top: 0.5rem;
+}
+
+.booking-form fieldset legend {
+  text-transform: uppercase;
+}

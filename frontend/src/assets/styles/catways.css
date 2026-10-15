@@ -6,9 +6,11 @@
 
 .catways-page > button {
   background: var(--bg-links-btn-color);
+  color: var(--links-btn-color);
   padding: 0.5rem;
   border-radius: 1rem;
   width: 200px;
+  font-weight: 700;
 }
 
 .catway-form-modal {

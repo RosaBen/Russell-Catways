@@ -22,12 +22,13 @@ import DashboardLayout from "./components/Layouts/DashboardLayout";
 // Styles
 import "./assets/styles/App.css";
 import "./assets/styles/header-footer.css";
+import "./assets/styles/responsive.css";
 import "./assets/styles/forms.css";
 import "./assets/styles/dashboard.css";
 import "./assets/styles/users.css";
 import "./assets/styles/table.css";
 import "./assets/styles/catways.css";
-import "./assets/styles/responsive.css";
+import "./assets/styles/bookings.css";
 
 import { useAuth } from "./contexts/AuthContext";
 import useToggle from "./hooks/useToggle";
@@ -207,7 +208,20 @@ function App() {
               />
             }
           />
-          <Route path="bookings" element={<Bookings />} />
+          <Route
+            path="bookings"
+            element={
+              <Bookings
+                catways={catways}
+                handleChange={handleChange}
+                fetchCatways={fetchCatways}
+                catwaysNumberList={catwaysNumberList}
+                isOpen={isCreate}
+                openForm={openCreateForm}
+                closeForm={closeCreateForm}
+              />
+            }
+          />
         </Route>
       </Route>
     </Routes>

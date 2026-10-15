@@ -81,7 +81,7 @@ export default function Catways({
           />
         )}
         {isOpen && (
-          <div className="catway-form-modal">
+          <div className="catway-form-modal desktop">
             <CatwayForm
               options={listCatwayNumber}
               handleChange={handleChange(setCatwayForm)}
