@@ -207,7 +207,17 @@ function App() {
               />
             }
           />
-          <Route path="bookings" element={<Bookings />} />
+          <Route
+            path="bookings"
+            element={
+              <Bookings
+                catways={catways}
+                handleChange={handleChange}
+                fetchCatways={fetchCatways}
+                catwaysNumberList={catwaysNumberList}
+              />
+            }
+          />
         </Route>
       </Route>
     </Routes>
