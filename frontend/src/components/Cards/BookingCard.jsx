@@ -1,10 +1,10 @@
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdModeEditOutline } from "react-icons/md";
 import EditCreateButtons from "../EditCreateButton";
-import { editBooking } from "../../assets/api/bookings";
+import { editBooking, deleteBooking } from "../../assets/api/bookings";
 import useToggle from "../../hooks/useToggle";
 import { useState } from "react";
-import formatDateForForm from "../../assets/utils/utils";
+import { formatDateForForm, sortOptions } from "../../assets/utils/utils";
 
 export default function BookingCard({
   booking,
@@ -23,6 +23,8 @@ export default function BookingCard({
 
   if (!booking) return null;
 
+  const sortedOptions = sortOptions(options);
+
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
@@ -38,6 +40,15 @@ export default function BookingCard({
       await editBooking(payload, previousCatwayNumber, booking._id);
       handleBookingUpdated?.(booking._id, payload);
       closeEditing();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      await deleteBooking(booking._id, booking.catwayNumber);
     } catch (error) {
       console.error(error.message);
     }
@@ -60,7 +71,7 @@ export default function BookingCard({
             <option value="" disabled>
               -- Sélectionner un ponton --
             </option>
-            {options.map((option) => {
+            {sortedOptions.map((option) => {
               return (
                 <option key={`catway-${option}`} value={option}>
                   {option}
@@ -165,7 +176,13 @@ export default function BookingCard({
           />
         )}
 
-        <button>Supprime</button>
+        <button
+          className="delete-btn red"
+          aria-label={`Supprimer Réservation ${bookingNumber}`}
+          onClick={handleDelete}
+        >
+          <FaRegTrashAlt />
+        </button>
       </td>
     </tr>
   );
