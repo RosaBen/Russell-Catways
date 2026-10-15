@@ -57,18 +57,18 @@ export default function Bookings({
     }
   };
 
-  // const handleBookingUpdated = (previousBookingNumber, updatedBooking) => {
-  //   setBookings((prev) =>
-  //     prev.map((book) =>
-  //       book._id === previousBookingNumber
-  //         ? {
-  //             ...book,
-  //             ...updatedBooking,
-  //           }
-  //         : book,
-  //     ),
-  //   );
-  // };
+  const handleBookingUpdated = (bookingId, updatedBooking) => {
+    setBookings((prev) =>
+      prev.map((book) =>
+        book._id === bookingId
+          ? {
+              ...book,
+              ...updatedBooking,
+            }
+          : book,
+      ),
+    );
+  };
 
   useEffect(() => {
     fetchBookings();
@@ -80,7 +80,9 @@ export default function Bookings({
       <BookingCard
         key={booking._id}
         booking={booking}
-        catwaysNumberList={catwaysNumberList}
+        options={catwaysNumberList}
+        handleBookingUpdated={handleBookingUpdated}
+        handleChange={handleChange}
       />
     );
   });
