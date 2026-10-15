@@ -9,7 +9,7 @@ export default function CatwayForm({
 }) {
   const sortedOptions = sortOptions(options);
   return (
-    <div className="catway-form-infos">
+    <div className="catway-form-infos ">
       <label className="catway-numbers">
         Pontons déjà existants
         <select name="catway-numbers" id="catway-numbers">
@@ -23,7 +23,7 @@ export default function CatwayForm({
         </select>
       </label>
       <form
-        className="catway-form"
+        className="catway-form desktop"
         id="catway-form"
         onSubmit={submit}
         noValidate

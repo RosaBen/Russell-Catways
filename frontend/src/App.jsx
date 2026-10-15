@@ -22,13 +22,13 @@ import DashboardLayout from "./components/Layouts/DashboardLayout";
 // Styles
 import "./assets/styles/App.css";
 import "./assets/styles/header-footer.css";
+import "./assets/styles/responsive.css";
 import "./assets/styles/forms.css";
 import "./assets/styles/dashboard.css";
 import "./assets/styles/users.css";
 import "./assets/styles/table.css";
 import "./assets/styles/catways.css";
 import "./assets/styles/bookings.css";
-import "./assets/styles/responsive.css";
 
 import { useAuth } from "./contexts/AuthContext";
 import useToggle from "./hooks/useToggle";

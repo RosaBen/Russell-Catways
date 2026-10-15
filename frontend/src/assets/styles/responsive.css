@@ -1,0 +1,76 @@
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+
+  header > button,
+  .modal-menu {
+    display: none;
+  }
+
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-desktop a {
+    color: var(--text-color);
+  }
+
+  .dashboard-links.desktop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .dashboard-page.desktop .edit-btn {
+    width: 40%;
+    align-self: center;
+  }
+
+  .dashboard-page.desktop .dashboard-infos {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .user-form.desktop,
+  .catway-form.desktop,
+  .booking-form.desktop {
+    width: 500px;
+  }
+
+  .user-form.desktop label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .user-form.desktop input {
+    width: 250px;
+  }
+
+  .catway-form.desktop > label:first-child {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .catway-form.desktop fieldset {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .booking-form.desktop > label:first-child {
+    flex-direction: row;
+    text-transform: uppercase;
+  }
+
+  .booking-form.desktop fieldset {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+}

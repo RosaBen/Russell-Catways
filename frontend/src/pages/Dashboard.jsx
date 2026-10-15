@@ -65,7 +65,7 @@ export default function Dashboard({ handleChange }) {
     return <p>Chargement ...</p>;
   }
   return (
-    <main className="dashboard-page">
+    <main className="dashboard-page desktop">
       <h1>Tableau de Bord</h1>
       <button
         className="previous-page-btn"
@@ -116,7 +116,7 @@ export default function Dashboard({ handleChange }) {
             className="close-btn blue"
             onClick={() => closeForm()}
           >
-            Fermer le formulaire
+            Annuler
           </button>
         </div>
       )}

@@ -7,7 +7,7 @@ export default function BookingForm({
 }) {
   return (
     <form
-      className="booking-form"
+      className="booking-form desktop"
       id="booking-form"
       onSubmit={submit}
       noValidate
