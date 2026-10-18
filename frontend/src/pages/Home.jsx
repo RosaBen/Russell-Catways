@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Home() {
   const { isConnected } = useAuth();
@@ -33,7 +34,7 @@ export default function Home() {
       </section>
       <div className="home-links">
         <a
-          href="http://localhost:3000/api-docs"
+          href={`${API_URL}/api-docs`}
           target="_blank"
           rel="noopener noreferrer"
         >
