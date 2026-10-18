@@ -47,7 +47,7 @@ function App() {
   });
 
   const navigate = useNavigate();
-
+  console.log(new Date());
   const handleChange = (setForm) => (e) => {
     setForm((prev) => ({
       ...prev,

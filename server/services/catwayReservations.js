@@ -15,10 +15,32 @@ import { findCatwayNumber } from "../utils/utils.js";
  */
 export async function createCatwayReservation (req, res) {
   const { clientName, boatName, startDate, endDate } = req.body;
+
   try {
     const { id } = req.params;
     const catway = await findCatwayNumber(id);
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const today = new Date();
+
+    if (!startDate || !endDate || Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+      return res.status(400).json({ message: "invalid dates" });
+    }
+
+    today.setHours(0, 0, 0, 0);
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+    if (start < today) {
+      return res.status(400).json({ message: "you cannot book in the past" });
+    }
+
+    if (end <= start) {
+      return res.status(400).json({ message: "end date must be after start date" });
+    }
+
     const existingReservation = await Reservation.findOne({ catwayNumber: catway.catwayNumber, startDate: { $lt: endDate }, endDate: { $gt: startDate } });
+
 
     if (existingReservation) {
       return res.status(400).json({
@@ -138,13 +160,26 @@ export async function editReservation (req, res) {
         message: "reservation not found"
       });
     }
+
+    const today = new Date();
     const nextCatwayNumber = Number(catwayNumber ?? reservation.catwayNumber);
     const nextStartDate = startDate ? new Date(startDate) : reservation.startDate;
     const nextEndDate = endDate ? new Date(endDate) : reservation.endDate;
-    if (nextStartDate >= nextEndDate) {
-      return res.status(400).json({
-        message: "startdate must be before enddate"
-      });
+
+    if (!startDate || !endDate || Number.isNaN(nextStartDate.getTime()) || Number.isNaN(nextEndDate.getTime())) {
+      return res.status(400).json({ message: "invalid dates" });
+    }
+
+    today.setHours(0, 0, 0, 0);
+    nextStartDate.setHours(0, 0, 0, 0);
+    nextEndDate.setHours(0, 0, 0, 0);
+
+    if (nextStartDate < today) {
+      return res.status(400).json({ message: "you cannot book in the past" });
+    }
+
+    if (nextEndDate <= nextStartDate) {
+      return res.status(400).json({ message: "end date must be after start date" });
     }
     const conflict = await Reservation.findOne({
       _id: { $ne: reservation._id },

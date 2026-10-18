@@ -77,6 +77,7 @@ export default function BookingForm({
           <input
             type="date"
             name="endDate"
+            min={form.startDate}
             value={form.endDate}
             onChange={handleChange}
             required
