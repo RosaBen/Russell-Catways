@@ -24,7 +24,7 @@
     justify-content: space-around;
   }
 
-  .dashboard-page.desktop .edit-btn {
+  .dashboard-page.desktop button:nth-child(4) {
     width: 40%;
     align-self: center;
   }

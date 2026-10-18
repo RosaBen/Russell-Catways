@@ -41,7 +41,7 @@ export default function Header({ showMenu, openMenu, closeMenu, logout }) {
         </div>
       )}
 
-      <Navbar classNav="nav-desktop" />
+      <Navbar classNav="nav-desktop" logout={logout} />
     </header>
   );
 }

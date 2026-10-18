@@ -11,8 +11,12 @@ export default function Bookings({
   isOpen,
   openForm,
   closeForm,
+  handleBookingUpdated,
+  setBookings,
+  bookings,
+  handleBookingDeleted,
+  refresh,
 }) {
-  const [bookings, setBookings] = useState([]);
   const [loadingBookings, setLoadingBookings] = useState(true);
   const [bookingForm, setBookingForm] = useState({
     catwayNumber: "",
@@ -42,8 +46,7 @@ export default function Bookings({
         bookingForm,
         bookingForm.catwayNumber,
       );
-      setBookings((prev) => [newBooking, ...prev]);
-      fetchBookings();
+      await refresh();
       setBookingForm({
         catwayNumber: "",
         clientName: "",
@@ -55,19 +58,6 @@ export default function Bookings({
     } catch (error) {
       console.error(error.message);
     }
-  };
-
-  const handleBookingUpdated = (bookingId, updatedBooking) => {
-    setBookings((prev) =>
-      prev.map((book) =>
-        book._id === bookingId
-          ? {
-              ...book,
-              ...updatedBooking,
-            }
-          : book,
-      ),
-    );
   };
 
   useEffect(() => {
@@ -82,6 +72,7 @@ export default function Bookings({
         booking={booking}
         options={catwaysNumberList}
         handleBookingUpdated={handleBookingUpdated}
+        handleBookingDeleted={handleBookingDeleted}
         handleChange={handleChange}
       />
     );

@@ -55,6 +55,9 @@ export default function Navbar({ classNav, onClick, logout }) {
           >
             Tableau de bord
           </NavLink>
+          <button className="dashboard-logout-btn" onClick={logout}>
+            Déconnexion
+          </button>
         </>
       )}
     </nav>

@@ -1,3 +1,5 @@
+import { sortOptions } from "../../assets/utils/utils";
+
 export default function BookingForm({
   handleChange,
   btnText,
@@ -24,7 +26,7 @@ export default function BookingForm({
           <option value="" disabled>
             -- Sélectionner un ponton --
           </option>
-          {options.map((option) => {
+          {sortOptions(options).map((option) => {
             return (
               <option key={`catway-${option}`} value={option}>
                 {option}

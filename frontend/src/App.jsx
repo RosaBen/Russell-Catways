@@ -1,10 +1,11 @@
 // React
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // API
 import { logout, createUser, getAllUsers } from "./assets/api/users";
 import { getAllCatways } from "./assets/api/catways";
+import { getAllBookings } from "./assets/api/bookings";
 
 // Pages
 import Home from "./pages/Home";
@@ -33,15 +34,17 @@ import "./assets/styles/bookings.css";
 
 import { useAuth } from "./contexts/AuthContext";
 import useToggle from "./hooks/useToggle";
+import { sortOptions, filterCurrentBookings } from "./assets/utils/utils";
 
 function App() {
-  const location = useLocation();
   const { logoutClean, isAuthReady, isConnected } = useAuth();
   const [users, setUsers] = useState([]);
   const [catways, setCatways] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadingCatways, setLoadingCatways] = useState(true);
   const [isCreate, , openCreateForm, closeCreateForm] = useToggle(false);
+  const [bookings, setBookings] = useState([]);
+  const [currentBookings, setCurrentBookings] = useState([]);
   const [createUserForm, setCreateUserForm] = useState({
     username: "",
     email: "",
@@ -80,6 +83,34 @@ function App() {
       setCatways([]);
     } finally {
       setLoadingCatways(false);
+    }
+  }
+
+  async function getCurrentBookings() {
+    const now = new Date();
+    const today = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, "0"),
+      String(now.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    try {
+      const data = await getAllBookings();
+      const todayBookings = data.filter((booking) => {
+        if (!booking.startDate || !booking.endDate) {
+          console.warn("dates manquantes", booking);
+          return false;
+        }
+
+        const startDate = booking.startDate.slice(0, 10);
+        const endDate = booking.endDate.slice(0, 10);
+
+        return startDate <= today && endDate >= today;
+      });
+      setCurrentBookings(todayBookings);
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
     }
   }
 
@@ -142,11 +173,39 @@ function App() {
     }
   }
 
+  const refreshBookingState = async () => {
+    const data = await getAllBookings();
+    setBookings(data);
+    setCurrentBookings(filterCurrentBookings(data));
+  };
+
   useEffect(() => {
     if (!isConnected) return;
     fetchUsers();
     fetchCatways();
+    getCurrentBookings();
   }, [isConnected]);
+
+  const handleBookingUpdated = (bookingId, updatedBooking) => {
+    setBookings((prev) =>
+      prev.map((book) =>
+        book._id === bookingId
+          ? {
+              ...book,
+              ...updatedBooking,
+            }
+          : book,
+      ),
+    );
+  };
+
+  const handleBookingDeleted = (bookingId) => {
+    setBookings((prev) => {
+      const next = prev.filter((book) => book._id !== bookingId);
+      setCurrentBookings(filterCurrentBookings(next));
+      return next;
+    });
+  };
 
   const catwaysNumberList = catways.map((catway) => catway.catwayNumber);
 
@@ -175,7 +234,18 @@ function App() {
             path="dashboard"
             element={<DashboardLayout logout={handleLogout} />}
           >
-            <Route index element={<Dashboard handleChange={handleChange} />} />
+            <Route
+              index
+              element={
+                <Dashboard
+                  handleChange={handleChange}
+                  currentBookings={currentBookings}
+                  options={catwaysNumberList}
+                  handleBookingUpdated={handleBookingUpdated}
+                  handleBookingDeleted={handleBookingDeleted}
+                />
+              }
+            />
             <Route
               path="users"
               element={
@@ -223,6 +293,11 @@ function App() {
                   isOpen={isCreate}
                   openForm={openCreateForm}
                   closeForm={closeCreateForm}
+                  handleBookingUpdated={handleBookingUpdated}
+                  bookings={bookings}
+                  setBookings={setBookings}
+                  handleBookingDeleted={handleBookingDeleted}
+                  refresh={refreshBookingState}
                 />
               }
             />

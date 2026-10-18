@@ -106,7 +106,7 @@ export default function UserCard({
             />
           )}
           <button
-            className="delete-btn red"
+            className="delete-btn red action-btn"
             aria-label={`Supprimer ${user.username}`}
             onClick={handleDelete}
           >

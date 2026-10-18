@@ -6,8 +6,15 @@ import { useEffect, useState } from "react";
 import UserForm from "../components/Forms/UserForm";
 import useToggle from "../hooks/useToggle";
 import EditCreateButtons from "../components/EditCreateButton";
+import BookingCard from "../components/Cards/BookingCard";
 
-export default function Dashboard({ handleChange }) {
+export default function Dashboard({
+  handleChange,
+  currentBookings,
+  options,
+  handleBookingUpdated,
+  handleBookingDeleted,
+}) {
   const { currentUser, currentUserEmail, setCurrentUser, setCurrentUserEmail } =
     useAuth();
   const [loadingUser, setLoadingUser] = useState(true);
@@ -61,6 +68,19 @@ export default function Dashboard({ handleChange }) {
     }
   }
 
+  const bookinglist = currentBookings.map((booking) => {
+    return (
+      <BookingCard
+        key={booking._id}
+        booking={booking}
+        options={options}
+        handleBookingUpdated={handleBookingUpdated}
+        handleChange={handleChange}
+        handleBookingDeleted={handleBookingDeleted}
+      />
+    );
+  });
+
   if (loadingUser) {
     return <p>Chargement ...</p>;
   }
@@ -86,7 +106,7 @@ export default function Dashboard({ handleChange }) {
 
       {!isOpen && (
         <EditCreateButtons
-          className="edit-btn orange"
+          className="action-btn orange"
           ariaExpanded={isOpen}
           ariaLabel="Modifier mon profil"
           ariaControls="user-form"
@@ -113,7 +133,7 @@ export default function Dashboard({ handleChange }) {
           />
           <button
             aria-label="annuler la modification du profil"
-            className="close-btn blue"
+            className="close-btn blue "
             onClick={() => closeForm()}
           >
             Annuler
@@ -140,7 +160,25 @@ export default function Dashboard({ handleChange }) {
         Documentation Api
       </a>
       <section className="current-bookings">
-        <h2>Réservations en cours</h2>
+        {!isOpen && (
+          <>
+            <h2>Réservations en cours</h2>
+            <table className="bookings-table">
+              <thead>
+                <tr>
+                  <th>Réservation</th>
+                  <th>Ponton</th>
+                  <th>Client</th>
+                  <th>Bateau</th>
+                  <th>date Entrée</th>
+                  <th>Date sortie</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>{bookinglist}</tbody>
+            </table>
+          </>
+        )}
       </section>
     </main>
   );

@@ -11,6 +11,7 @@ export default function BookingCard({
   options,
   handleBookingUpdated,
   handleChange,
+  handleBookingDeleted,
 }) {
   const [isEditing, , openEditing, closeEditing] = useToggle(false);
   const [editBookingForm, setEditBookingForm] = useState({
@@ -49,6 +50,7 @@ export default function BookingCard({
     e.preventDefault();
     try {
       await deleteBooking(booking._id, booking.catwayNumber);
+      handleBookingDeleted(booking._id);
     } catch (error) {
       console.error(error.message);
     }
@@ -182,7 +184,7 @@ export default function BookingCard({
         )}
 
         <button
-          className="delete-btn red"
+          className="delete-btn red action-btn"
           aria-label={`Supprimer Réservation ${bookingNumber}`}
           onClick={handleDelete}
         >

@@ -133,7 +133,7 @@ export default function CatwayCard({
           />
         )}
         <button
-          className="delete-btn red"
+          className="delete-btn red action-btn"
           aria-label={`Supprimer Ponton ${catway.catwayNumber}`}
           onClick={handleDelete}
         >

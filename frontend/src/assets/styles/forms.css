@@ -42,6 +42,11 @@ input:focus {
   letter-spacing: 1px;
 }
 
+.action-btn {
+  width: 3rem;
+  height: 3rem;
+}
+
 .green {
   background: var(--bg-color);
   color: var(--text-color);
