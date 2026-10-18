@@ -153,9 +153,14 @@ export default function BookingCard({
       </td>
       <td data-label="Actions" className="actions">
         {isEditing ? (
-          <button onClick={handleEdit} className="save.btn blue">
-            Enregistrer
-          </button>
+          <>
+            <button onClick={handleEdit} className="save.btn green">
+              Enregistrer
+            </button>
+            <button onClick={closeEditing} className="cancel.btn blue">
+              Annuler
+            </button>
+          </>
         ) : (
           <EditCreateButtons
             ariaExpanded={isEditing}
