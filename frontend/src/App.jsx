@@ -1,5 +1,5 @@
 // React
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // API
@@ -18,6 +18,7 @@ import Bookings from "./pages/dashboard/Bookings";
 // Components
 import Layout from "./components/Layouts/Layout";
 import DashboardLayout from "./components/Layouts/DashboardLayout";
+import TrackPages from "./components/TrackPages";
 
 // Styles
 import "./assets/styles/App.css";
@@ -34,6 +35,7 @@ import { useAuth } from "./contexts/AuthContext";
 import useToggle from "./hooks/useToggle";
 
 function App() {
+  const location = useLocation();
   const { logoutClean, isAuthReady, isConnected } = useAuth();
   const [users, setUsers] = useState([]);
   const [catways, setCatways] = useState([]);
@@ -152,79 +154,82 @@ function App() {
     return null;
   }
   return (
-    <Routes>
-      <Route path="/" element={<Layout logout={handleLogout} />}>
-        <Route index element={<Home />} />
-        <Route path="login" element={<Login handleChange={handleChange} />} />
-        <Route
-          path="register"
-          element={
-            <Register
-              handleChange={handleChange}
-              registerForm={createUserForm}
-              setRegisterForm={setCreateUserForm}
-              handleRegister={handleCreateUser}
+    <>
+      <TrackPages />
+      <Routes>
+        <Route path="/" element={<Layout logout={handleLogout} />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login handleChange={handleChange} />} />
+          <Route
+            path="register"
+            element={
+              <Register
+                handleChange={handleChange}
+                registerForm={createUserForm}
+                setRegisterForm={setCreateUserForm}
+                handleRegister={handleCreateUser}
+              />
+            }
+          />
+          <Route
+            path="dashboard"
+            element={<DashboardLayout logout={handleLogout} />}
+          >
+            <Route index element={<Dashboard handleChange={handleChange} />} />
+            <Route
+              path="users"
+              element={
+                <Users
+                  handleChange={handleChange}
+                  setNewUserForm={setCreateUserForm}
+                  newUserForm={createUserForm}
+                  handleNewUser={handleCreateUser}
+                  isOpen={isCreate}
+                  openForm={openCreateForm}
+                  closeForm={closeCreateForm}
+                  handleUserUpdated={handleUserUpdated}
+                  users={users}
+                  setUsers={setUsers}
+                  loadingUsers={loadingUsers}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path="dashboard"
-          element={<DashboardLayout logout={handleLogout} />}
-        >
-          <Route index element={<Dashboard handleChange={handleChange} />} />
-          <Route
-            path="users"
-            element={
-              <Users
-                handleChange={handleChange}
-                setNewUserForm={setCreateUserForm}
-                newUserForm={createUserForm}
-                handleNewUser={handleCreateUser}
-                isOpen={isCreate}
-                openForm={openCreateForm}
-                closeForm={closeCreateForm}
-                handleUserUpdated={handleUserUpdated}
-                users={users}
-                setUsers={setUsers}
-                loadingUsers={loadingUsers}
-              />
-            }
-          />
-          <Route
-            path="catways"
-            element={
-              <Catways
-                handleChange={handleChange}
-                isOpen={isCreate}
-                openForm={openCreateForm}
-                closeForm={closeCreateForm}
-                catways={catways}
-                loadingCatways={loadingCatways}
-                setLoadingCatways={setLoadingCatways}
-                handleCatwayUpdated={handleCatwayUpdated}
-                listCatwayNumber={catwaysNumberList}
-                setCatways={setCatways}
-                fetchCatways={fetchCatways}
-              />
-            }
-          />
-          <Route
-            path="bookings"
-            element={
-              <Bookings
-                catways={catways}
-                handleChange={handleChange}
-                fetchCatways={fetchCatways}
-                catwaysNumberList={catwaysNumberList}
-                isOpen={isCreate}
-                openForm={openCreateForm}
-                closeForm={closeCreateForm}
-              />
-            }
-          />
+            <Route
+              path="catways"
+              element={
+                <Catways
+                  handleChange={handleChange}
+                  isOpen={isCreate}
+                  openForm={openCreateForm}
+                  closeForm={closeCreateForm}
+                  catways={catways}
+                  loadingCatways={loadingCatways}
+                  setLoadingCatways={setLoadingCatways}
+                  handleCatwayUpdated={handleCatwayUpdated}
+                  listCatwayNumber={catwaysNumberList}
+                  setCatways={setCatways}
+                  fetchCatways={fetchCatways}
+                />
+              }
+            />
+            <Route
+              path="bookings"
+              element={
+                <Bookings
+                  catways={catways}
+                  handleChange={handleChange}
+                  fetchCatways={fetchCatways}
+                  catwaysNumberList={catwaysNumberList}
+                  isOpen={isCreate}
+                  openForm={openCreateForm}
+                  closeForm={closeCreateForm}
+                />
+              }
+            />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </>
   );
 }
 

@@ -48,7 +48,6 @@ export default function UserCard({
       }
       await deleteUser(user.email);
       handleUserDeleted?.(user.email);
-      sessionStorage.removeItem("selectedUser");
       navigate("/dashboard/users");
     } catch (error) {
       console.error(error.message);

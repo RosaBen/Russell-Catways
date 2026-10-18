@@ -29,11 +29,8 @@ export function AuthProvider({ children }) {
 
   const cleanSessionStorage = () => {
     sessionStorage.removeItem("logged");
-    sessionStorage.removeItem("selectedUser");
-    sessionStorage.removeItem("selectedBookingId");
-    sessionStorage.removeItem("selectedBookingCatwayNumber");
-    sessionStorage.removeItem("selectedCatway");
     sessionStorage.removeItem("prevPage");
+    sessionStorage.removeItem("currentPage");
   };
 
   const logoutClean = () => {
