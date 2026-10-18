@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
+import { Router } from "express";
+import { protect } from "../middlewares/protect.js";
+import { createNewUser, getAllUsers, getUserByEmail, editUser, deleteUser } from "../services/users.js";
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const router = Router();
 
-module.exports = router;
+router.post("/", createNewUser);
+router.get("/", getAllUsers); //add middleware
+router.get("/:email", getUserByEmail);//add middleware
+router.put("/:email", editUser); //add middleware
+router.delete("/:email", protect, deleteUser); //add middleware
+
+
+export default router;

@@ -1,0 +1,38 @@
+.users-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.users-page > button {
+  background: var(--bg-links-btn-color);
+  color: var(--links-btn-color);
+  padding: 0.5rem;
+  border-radius: 1rem;
+  width: 200px;
+  font-weight: 700;
+}
+
+.users-page .create-menu {
+  margin-bottom: 1.5rem;
+}
+
+.users-page .modal-form-create-user a {
+  color: var(--links-btn-color);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-form-create-user {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  gap: 1rem;
+}
+
+.users-table input {
+  width: 100%;
+  min-width: 0;
+}
