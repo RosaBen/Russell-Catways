@@ -1,4 +1,5 @@
 import Catway from "../models/Catway.js";
+import Reservation from "../models/Reservation.js";
 
 /**
  * Register a new catway
@@ -160,9 +161,15 @@ export async function editCatway (req, res) {
 export async function deleteCatway (req, res) {
   try {
     const catway = await Catway.findOne({ catwayNumber: req.params.id });
+    const reservation = await Reservation.findOne({ catwayNumber: catway.catwayNumber });
     if (!catway) {
-      res.status(404).json({ message: "catway not found" });
+      return res.status(404).json({ message: "catway not found" });
     }
+
+    if (reservation) {
+      return res.status(409).json({ message: "cannot delete catway with existing reservation" });
+    }
+
     await Catway.deleteOne(catway);
     return res.status(200).json({ message: "catway deleted" });
   } catch (error) {

@@ -41,7 +41,6 @@ export async function createCatwayReservation (req, res) {
 
     const existingReservation = await Reservation.findOne({ catwayNumber: catway.catwayNumber, startDate: { $lt: endDate }, endDate: { $gt: startDate } });
 
-
     if (existingReservation) {
       return res.status(400).json({
         message: `this catway ${catway.catwayNumber} is already booked for this timeperiod`
