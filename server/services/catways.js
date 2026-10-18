@@ -18,14 +18,21 @@ export async function createNewCatway (req, res) {
     if (existingNumber) {
       return res.status(409).json({ message: "this catway number exist already" });
     }
-    const catway = await Catway.create({ catwayNumber, catwayType, catwayState });
+
+    // if (catwayState === "") {
+    //   return catwayState = "Bon état";
+    // } else {
+    //   return catwayState;
+    // }
+
+    const catway = await Catway.create({ catwayNumber, catwayType, catwayState: catwayState?.trim() || "Bon état" });
     return res.status(201).json({
       message: "catway created",
       catway: {
         id: catway._id,
         catwayNumber: catway.catwayNumber,
         catwayType: catway.catwayType,
-        catwayState: catway.catwayState
+        catwayState: catway.catwayState === "" ? "Bon état" : catway.catwayState
       }
     });
   } catch (error) {

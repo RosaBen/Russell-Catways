@@ -68,7 +68,7 @@ export default function CatwayForm({
           <textarea
             name="catwayState"
             placeholder="ex: bon état"
-            value={form.catwayState || "Bon état"}
+            value={form.catwayState}
             onChange={handleChange}
           ></textarea>
         </label>
