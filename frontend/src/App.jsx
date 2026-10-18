@@ -182,7 +182,7 @@ function App() {
                 handleNewUser={handleCreateUser}
                 isOpen={isCreate}
                 openForm={openCreateForm}
-                closeCreateForm={closeCreateForm}
+                closeForm={closeCreateForm}
                 handleUserUpdated={handleUserUpdated}
                 users={users}
                 setUsers={setUsers}

@@ -16,12 +16,6 @@
 .catway-form-modal {
   display: flex;
   flex-direction: column;
+  place-items: center;
   gap: 1.5rem;
-}
-
-.catway-form-modal button {
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  font-weight: 700;
-  letter-spacing: 1px;
 }

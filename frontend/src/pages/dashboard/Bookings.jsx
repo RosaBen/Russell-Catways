@@ -125,7 +125,7 @@ export default function Bookings({
           <button
             onClick={() => closeForm()}
             aria-label="Fermer le formulaire"
-            className="blue"
+            className="blue close-btn"
           >
             Annuler
           </button>

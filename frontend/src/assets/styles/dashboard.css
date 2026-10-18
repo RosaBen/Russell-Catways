@@ -76,11 +76,6 @@
   gap: 1rem;
 }
 
-.dashboard-page .close-btn {
-  padding: 0.5rem 0.8rem;
-  border-radius: 0.5rem;
-}
-
 .dashboard-page > button {
   display: flex;
   align-items: center;

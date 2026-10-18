@@ -17,12 +17,19 @@
   margin-bottom: 1.5rem;
 }
 
-.users-page .modal-form a {
+.users-page .modal-form-create-user a {
   color: var(--links-btn-color);
   font-weight: 700;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.modal-form-create-user {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  gap: 1rem;
 }
 
 .users-table input {

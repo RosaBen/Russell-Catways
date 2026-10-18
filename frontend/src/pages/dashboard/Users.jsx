@@ -1,10 +1,6 @@
-import { NavLink } from "react-router-dom";
 import UserForm from "../../components/Forms/UserForm";
 import UserCard from "../../components/Cards/UserCard";
 import { useAuth } from "../../contexts/AuthContext";
-
-import { IoMdReturnLeft } from "react-icons/io";
-
 import EditCreateButtons from "../../components/EditCreateButton";
 
 export default function Users({
@@ -64,7 +60,7 @@ export default function Users({
           />
         )}
         {isOpen && (
-          <div className="modal-form">
+          <div className="modal-form-create-user">
             <div className="create-menu">
               <UserForm
                 handleChange={handleChange(setNewUserForm)}
@@ -73,15 +69,13 @@ export default function Users({
                 submit={handleNewUser}
               />
             </div>
-            <NavLink
-              to="/dashboard/users"
+            <button
+              aria-label="annuler le nouvel utilisateur"
+              className="close-btn blue"
               onClick={() => closeForm()}
-              // target="_blank"
-              // rel="noopener noreferrer"
             >
-              <IoMdReturnLeft />
-              Retour Utilisateurs
-            </NavLink>
+              Annuler
+            </button>
           </div>
         )}
         <table className="users-table">
