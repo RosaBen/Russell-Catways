@@ -48,7 +48,6 @@ export default function UserCard({
       }
       await deleteUser(user.email);
       handleUserDeleted?.(user.email);
-      sessionStorage.removeItem("selectedUser");
       navigate("/dashboard/users");
     } catch (error) {
       console.error(error.message);
@@ -82,9 +81,14 @@ export default function UserCard({
       {!isCurrentUser && (
         <td data-label="Actions" className="actions">
           {isEditing ? (
-            <button onClick={handleEdit} className="save.btn blue">
-              Enregistrer
-            </button>
+            <>
+              <button onClick={handleEdit} className="save.btn green">
+                Enregistrer
+              </button>
+              <button onClick={closeEditing} className="cancel.btn blue">
+                Annuler
+              </button>
+            </>
           ) : (
             <EditCreateButtons
               ariaExpanded={isEditing}
@@ -102,7 +106,7 @@ export default function UserCard({
             />
           )}
           <button
-            className="delete-btn red"
+            className="delete-btn red action-btn"
             aria-label={`Supprimer ${user.username}`}
             onClick={handleDelete}
           >

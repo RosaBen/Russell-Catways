@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 // API
 import { logout, createUser, getAllUsers } from "./assets/api/users";
 import { getAllCatways } from "./assets/api/catways";
+import { getAllBookings } from "./assets/api/bookings";
 
 // Pages
 import Home from "./pages/Home";
@@ -18,6 +19,7 @@ import Bookings from "./pages/dashboard/Bookings";
 // Components
 import Layout from "./components/Layouts/Layout";
 import DashboardLayout from "./components/Layouts/DashboardLayout";
+import TrackPages from "./components/TrackPages";
 
 // Styles
 import "./assets/styles/App.css";
@@ -32,6 +34,7 @@ import "./assets/styles/bookings.css";
 
 import { useAuth } from "./contexts/AuthContext";
 import useToggle from "./hooks/useToggle";
+import { sortOptions, filterCurrentBookings } from "./assets/utils/utils";
 
 function App() {
   const { logoutClean, isAuthReady, isConnected } = useAuth();
@@ -40,6 +43,8 @@ function App() {
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadingCatways, setLoadingCatways] = useState(true);
   const [isCreate, , openCreateForm, closeCreateForm] = useToggle(false);
+  const [bookings, setBookings] = useState([]);
+  const [currentBookings, setCurrentBookings] = useState([]);
   const [createUserForm, setCreateUserForm] = useState({
     username: "",
     email: "",
@@ -78,6 +83,34 @@ function App() {
       setCatways([]);
     } finally {
       setLoadingCatways(false);
+    }
+  }
+
+  async function getCurrentBookings() {
+    const now = new Date();
+    const today = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, "0"),
+      String(now.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    try {
+      const data = await getAllBookings();
+      const todayBookings = data.filter((booking) => {
+        if (!booking.startDate || !booking.endDate) {
+          console.warn("dates manquantes", booking);
+          return false;
+        }
+
+        const startDate = booking.startDate.slice(0, 10);
+        const endDate = booking.endDate.slice(0, 10);
+
+        return startDate <= today && endDate >= today;
+      });
+      setCurrentBookings(todayBookings);
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
     }
   }
 
@@ -140,11 +173,39 @@ function App() {
     }
   }
 
+  const refreshBookingState = async () => {
+    const data = await getAllBookings();
+    setBookings(data);
+    setCurrentBookings(filterCurrentBookings(data));
+  };
+
   useEffect(() => {
     if (!isConnected) return;
     fetchUsers();
     fetchCatways();
+    getCurrentBookings();
   }, [isConnected]);
+
+  const handleBookingUpdated = (bookingId, updatedBooking) => {
+    setBookings((prev) =>
+      prev.map((book) =>
+        book._id === bookingId
+          ? {
+              ...book,
+              ...updatedBooking,
+            }
+          : book,
+      ),
+    );
+  };
+
+  const handleBookingDeleted = (bookingId) => {
+    setBookings((prev) => {
+      const next = prev.filter((book) => book._id !== bookingId);
+      setCurrentBookings(filterCurrentBookings(next));
+      return next;
+    });
+  };
 
   const catwaysNumberList = catways.map((catway) => catway.catwayNumber);
 
@@ -152,79 +213,98 @@ function App() {
     return null;
   }
   return (
-    <Routes>
-      <Route path="/" element={<Layout logout={handleLogout} />}>
-        <Route index element={<Home />} />
-        <Route path="login" element={<Login handleChange={handleChange} />} />
-        <Route
-          path="register"
-          element={
-            <Register
-              handleChange={handleChange}
-              registerForm={createUserForm}
-              setRegisterForm={setCreateUserForm}
-              handleRegister={handleCreateUser}
+    <>
+      <TrackPages />
+      <Routes>
+        <Route path="/" element={<Layout logout={handleLogout} />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login handleChange={handleChange} />} />
+          <Route
+            path="register"
+            element={
+              <Register
+                handleChange={handleChange}
+                registerForm={createUserForm}
+                setRegisterForm={setCreateUserForm}
+                handleRegister={handleCreateUser}
+              />
+            }
+          />
+          <Route
+            path="dashboard"
+            element={<DashboardLayout logout={handleLogout} />}
+          >
+            <Route
+              index
+              element={
+                <Dashboard
+                  handleChange={handleChange}
+                  currentBookings={currentBookings}
+                  options={catwaysNumberList}
+                  handleBookingUpdated={handleBookingUpdated}
+                  handleBookingDeleted={handleBookingDeleted}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path="dashboard"
-          element={<DashboardLayout logout={handleLogout} />}
-        >
-          <Route index element={<Dashboard handleChange={handleChange} />} />
-          <Route
-            path="users"
-            element={
-              <Users
-                handleChange={handleChange}
-                setNewUserForm={setCreateUserForm}
-                newUserForm={createUserForm}
-                handleNewUser={handleCreateUser}
-                isOpen={isCreate}
-                openForm={openCreateForm}
-                closeCreateForm={closeCreateForm}
-                handleUserUpdated={handleUserUpdated}
-                users={users}
-                setUsers={setUsers}
-                loadingUsers={loadingUsers}
-              />
-            }
-          />
-          <Route
-            path="catways"
-            element={
-              <Catways
-                handleChange={handleChange}
-                isOpen={isCreate}
-                openForm={openCreateForm}
-                closeForm={closeCreateForm}
-                catways={catways}
-                loadingCatways={loadingCatways}
-                setLoadingCatways={setLoadingCatways}
-                handleCatwayUpdated={handleCatwayUpdated}
-                listCatwayNumber={catwaysNumberList}
-                setCatways={setCatways}
-                fetchCatways={fetchCatways}
-              />
-            }
-          />
-          <Route
-            path="bookings"
-            element={
-              <Bookings
-                catways={catways}
-                handleChange={handleChange}
-                fetchCatways={fetchCatways}
-                catwaysNumberList={catwaysNumberList}
-                isOpen={isCreate}
-                openForm={openCreateForm}
-                closeForm={closeCreateForm}
-              />
-            }
-          />
+            <Route
+              path="users"
+              element={
+                <Users
+                  handleChange={handleChange}
+                  setNewUserForm={setCreateUserForm}
+                  newUserForm={createUserForm}
+                  handleNewUser={handleCreateUser}
+                  isOpen={isCreate}
+                  openForm={openCreateForm}
+                  closeForm={closeCreateForm}
+                  handleUserUpdated={handleUserUpdated}
+                  users={users}
+                  setUsers={setUsers}
+                  loadingUsers={loadingUsers}
+                />
+              }
+            />
+            <Route
+              path="catways"
+              element={
+                <Catways
+                  handleChange={handleChange}
+                  isOpen={isCreate}
+                  openForm={openCreateForm}
+                  closeForm={closeCreateForm}
+                  catways={catways}
+                  loadingCatways={loadingCatways}
+                  setLoadingCatways={setLoadingCatways}
+                  handleCatwayUpdated={handleCatwayUpdated}
+                  listCatwayNumber={catwaysNumberList}
+                  setCatways={setCatways}
+                  fetchCatways={fetchCatways}
+                />
+              }
+            />
+            <Route
+              path="bookings"
+              element={
+                <Bookings
+                  catways={catways}
+                  handleChange={handleChange}
+                  fetchCatways={fetchCatways}
+                  catwaysNumberList={catwaysNumberList}
+                  isOpen={isCreate}
+                  openForm={openCreateForm}
+                  closeForm={closeCreateForm}
+                  handleBookingUpdated={handleBookingUpdated}
+                  bookings={bookings}
+                  setBookings={setBookings}
+                  handleBookingDeleted={handleBookingDeleted}
+                  refresh={refreshBookingState}
+                />
+              }
+            />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </>
   );
 }
 

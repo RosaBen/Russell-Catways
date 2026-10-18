@@ -13,10 +13,10 @@ export default function EditCreateButtons({
     <button
       className={
         isEdit
-          ? "edit-btn orange"
+          ? "edit-btn orange action-btn"
           : isCreate
-            ? "create-btn green"
-            : "open-form-btn"
+            ? "create-btn green action-btn"
+            : "open-form-btn action-btn"
       }
       aria-expanded={ariaExpanded}
       aria-label={ariaLabel}

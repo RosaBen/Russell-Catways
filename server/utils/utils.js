@@ -33,6 +33,13 @@ export function generateToken (user) {
   });
 }
 
+
+/**
+ * Get cookies options
+ *
+ * @export
+ * @returns {{ httpOnly: boolean; secure: boolean; sameSite: string; path: string; }} 
+ */
 export function getAuthCookieOptions () {
   return (
     {

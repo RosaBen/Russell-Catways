@@ -11,6 +11,7 @@ export default function BookingCard({
   options,
   handleBookingUpdated,
   handleChange,
+  handleBookingDeleted,
 }) {
   const [isEditing, , openEditing, closeEditing] = useToggle(false);
   const [editBookingForm, setEditBookingForm] = useState({
@@ -49,6 +50,7 @@ export default function BookingCard({
     e.preventDefault();
     try {
       await deleteBooking(booking._id, booking.catwayNumber);
+      handleBookingDeleted(booking._id);
     } catch (error) {
       console.error(error.message);
     }
@@ -153,9 +155,14 @@ export default function BookingCard({
       </td>
       <td data-label="Actions" className="actions">
         {isEditing ? (
-          <button onClick={handleEdit} className="save.btn blue">
-            Enregistrer
-          </button>
+          <>
+            <button onClick={handleEdit} className="save.btn green">
+              Enregistrer
+            </button>
+            <button onClick={closeEditing} className="cancel.btn blue">
+              Annuler
+            </button>
+          </>
         ) : (
           <EditCreateButtons
             ariaExpanded={isEditing}
@@ -177,7 +184,7 @@ export default function BookingCard({
         )}
 
         <button
-          className="delete-btn red"
+          className="delete-btn red action-btn"
           aria-label={`Supprimer Réservation ${bookingNumber}`}
           onClick={handleDelete}
         >

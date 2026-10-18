@@ -1,4 +1,5 @@
 import Catway from "../models/Catway.js";
+import Reservation from "../models/Reservation.js";
 
 /**
  * Register a new catway
@@ -18,14 +19,21 @@ export async function createNewCatway (req, res) {
     if (existingNumber) {
       return res.status(409).json({ message: "this catway number exist already" });
     }
-    const catway = await Catway.create({ catwayNumber, catwayType, catwayState });
+
+    // if (catwayState === "") {
+    //   return catwayState = "Bon état";
+    // } else {
+    //   return catwayState;
+    // }
+
+    const catway = await Catway.create({ catwayNumber, catwayType, catwayState: catwayState?.trim() || "Bon état" });
     return res.status(201).json({
       message: "catway created",
       catway: {
         id: catway._id,
         catwayNumber: catway.catwayNumber,
         catwayType: catway.catwayType,
-        catwayState: catway.catwayState
+        catwayState: catway.catwayState === "" ? "Bon état" : catway.catwayState
       }
     });
   } catch (error) {
@@ -153,9 +161,15 @@ export async function editCatway (req, res) {
 export async function deleteCatway (req, res) {
   try {
     const catway = await Catway.findOne({ catwayNumber: req.params.id });
+    const reservation = await Reservation.findOne({ catwayNumber: catway.catwayNumber });
     if (!catway) {
-      res.status(404).json({ message: "catway not found" });
+      return res.status(404).json({ message: "catway not found" });
     }
+
+    if (reservation) {
+      return res.status(409).json({ message: "cannot delete catway with existing reservation" });
+    }
+
     await Catway.deleteOne(catway);
     return res.status(200).json({ message: "catway deleted" });
   } catch (error) {

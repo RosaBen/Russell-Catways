@@ -2,6 +2,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
+import swaggerUI from "swagger-ui-express";
+import openApiSpec from "./docs/openapi.js";
 import usersRouter from "./routes/users.js";
 import catwaysRouter from "./routes/catways.js";
 import reservationsRouter from "./routes/reservations.js";
@@ -36,6 +38,7 @@ app.use('/api/users', usersRouter);
 app.use("/api/catways", catwaysRouter);
 app.use("/api/reservations", reservationsRouter);
 app.use("/api/catways/:id/reservations", catwayReservationsRouter);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(openApiSpec));
 
 app.use(function (req, res, next) {
   res.status(404).json({

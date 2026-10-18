@@ -107,9 +107,14 @@ export default function CatwayCard({
       </td>
       <td data-label="Actions" className="actions">
         {isEditing ? (
-          <button onClick={handleEdit} className="save.btn blue">
-            Enregistrer
-          </button>
+          <>
+            <button onClick={handleEdit} className="save.btn green">
+              Enregistrer
+            </button>
+            <button onClick={closeEditing} className="cancel.btn blue">
+              Annuler
+            </button>
+          </>
         ) : (
           <EditCreateButtons
             ariaExpanded={isEditing}
@@ -128,7 +133,7 @@ export default function CatwayCard({
           />
         )}
         <button
-          className="delete-btn red"
+          className="delete-btn red action-btn"
           aria-label={`Supprimer Ponton ${catway.catwayNumber}`}
           onClick={handleDelete}
         >
