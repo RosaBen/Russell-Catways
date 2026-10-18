@@ -17,9 +17,12 @@ initClientDbConnection();
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  // origin: "http://localhost:5173",
   // origin: "http://localhost:4173",
-  credentials: true
+  origin: "https://russelcatways-rb.netlify.app/",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+  // credentials: true
 }));
 
 // app.use(cors({
@@ -38,7 +41,7 @@ app.use('/api/users', usersRouter);
 app.use("/api/catways", catwaysRouter);
 app.use("/api/reservations", reservationsRouter);
 app.use("/api/catways/:id/reservations", catwayReservationsRouter);
-app.use("/api/api-docs", swaggerUI.serve, swaggerUI.setup(openApiSpec));
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(openApiSpec));
 
 app.use(function (req, res, next) {
   res.status(404).json({
