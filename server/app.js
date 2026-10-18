@@ -21,9 +21,10 @@ app.use(cors({
   // origin: "http://localhost:4173",
   origin: "https://russelcatways-rb.netlify.app/",
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-  // credentials: true
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
+app.options("*", cors());
 
 // app.use(cors({
 //   exposedHeaders: ["Authorization"],
