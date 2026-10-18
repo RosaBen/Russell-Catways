@@ -19,7 +19,7 @@ const app = express();
 app.use(cors({
   // origin: "http://localhost:5173",
   // origin: "http://localhost:4173",
-  origin: "https://russelcatways-rb.netlify.app/",
+  origin: "https://russelcatways-rb.netlify.app",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
@@ -44,13 +44,8 @@ app.use("/api/reservations", reservationsRouter);
 app.use("/api/catways/:id/reservations", catwayReservationsRouter);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(openApiSpec));
 
-app.use(function (req, res, next) {
-  res.status(404).json({
-    name: "server",
-    version: "1.0.0",
-    status: 404,
-    message: "not Found"
-  });
+app.get("/", (req, res) => {
+  res.json({ message: "API opérationnelle" });
 });
 
 export default app;
