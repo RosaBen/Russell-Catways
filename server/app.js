@@ -16,6 +16,8 @@ initClientDbConnection();
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.use(cors({
   // origin: "http://localhost:5173",
   // origin: "http://localhost:4173",
@@ -44,6 +46,7 @@ app.use("/api/catways", catwaysRouter);
 app.use("/api/reservations", reservationsRouter);
 app.use("/api/catways/:id/reservations", catwayReservationsRouter);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(openApiSpec));
+
 
 app.get("/", (req, res) => {
   res.json({ message: "API opérationnelle" });

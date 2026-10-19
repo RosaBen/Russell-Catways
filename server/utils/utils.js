@@ -45,7 +45,7 @@ export function getAuthCookieOptions () {
   return (
     {
       httpOnly: true,
-      secure: true,
+      secure: isProduction,
       sameSite: isProduction ? "none" : "lax",
       path: "/"
     }
