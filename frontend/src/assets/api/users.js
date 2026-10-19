@@ -126,7 +126,7 @@ export async function getUser (email) {
  * @returns {Promise} 
  */
 export async function editUser (email, user) {
-  const response = await fetch(`${API_URL}/users/${email}`, {
+  const response = await fetch(`${API_URL}/users/${encodeURIComponent(email)}`, {
     method: "put",
     headers: {
       "Content-Type": "application/json"
