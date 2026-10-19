@@ -105,7 +105,7 @@ export async function getAllUsers () {
  * @returns {Promise} 
  */
 export async function getUser (email) {
-  const response = await fetch(`${API_URL}/users/${email}`, {
+  const response = await fetch(`${API_URL}/users/${encodeURIComponent(email)}`, {
     method: "GET",
     credentials: "include",
     cache: "no-store"
@@ -150,7 +150,7 @@ export async function editUser (email, user) {
  * @returns {Promise} 
  */
 export async function deleteUser (email) {
-  const response = await fetch(`${API_URL}/users/${email}`, {
+  const response = await fetch(`${API_URL}/users/${encodeURIComponent(email)}`, {
     method: "delete",
     credentials: "include",
   });
