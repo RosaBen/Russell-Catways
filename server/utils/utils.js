@@ -45,7 +45,7 @@ export function getAuthCookieOptions () {
     {
       httpOnly: true,
       secure: true,
-      sameSite: "none",
+      sameSite: "strict",
       path: "/"
     }
   );
