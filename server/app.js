@@ -19,7 +19,7 @@ const app = express();
 app.set("trust proxy", 1);
 
 const allowedOrigins = [
-  "https://russell-catways-mu.vercel.app",
+  "https://russell-catways-five.vercel.app",
 ];
 
 app.use(cors({
