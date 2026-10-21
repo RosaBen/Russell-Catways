@@ -43,11 +43,12 @@ export async function login (req, res) {
       }
     });
   } catch (error) {
+    console.error("LOGIN ERROR:", error);
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors).map(err => err.message);
       return res.status(400).json({ errors: messages });
     }
-    return res.status(501).json({ message: "server error" });
+    return res.status(500).json({ message: "server error", details: error.message });
   }
 }
 
