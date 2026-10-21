@@ -27,8 +27,8 @@ app.use(cors({
   // origin: "http://localhost:4173",
   origin: "https://russell-catways-five.vercel.app",
   credentials: true,
-  // methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  // allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 
 }));
 app.options("*", cors());
