@@ -52,4 +52,13 @@ app.get("/", (req, res) => {
   res.json({ message: "API opérationnelle" });
 });
 
+app.use(function (req, res) {
+  res.status(404).json({
+    name: "server",
+    version: "1.0.0",
+    status: 404,
+    message: "not found"
+  });
+});
+
 export default app;

@@ -13,10 +13,11 @@ const API_URL = import.meta.env.VITE_API_URL;
 export async function login (credentials) {
   const response = await fetch(`${API_URL}/login`, {
     method: "post",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json"
     },
-    credentials: "include",
+
     body: JSON.stringify(credentials)
   });
   if (!response.ok) {
