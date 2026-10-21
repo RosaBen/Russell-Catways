@@ -1,4 +1,4 @@
-// const API_URL = import.meta.env.VITE_API_URL || "/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // AUTH
 
@@ -11,7 +11,7 @@
  * @returns {Promise} 
  */
 export async function login (credentials) {
-  const response = await fetch(`/api/login`, {
+  const response = await fetch(`${API_URL}/login`, {
     method: "post",
     credentials: "include",
     headers: {
@@ -36,7 +36,7 @@ export async function login (credentials) {
  * @returns promise
  */
 export async function logout () {
-  const response = await fetch(`/api/logout`, {
+  const response = await fetch(`${API_URL}/logout`, {
     method: "get",
     credentials: "include"
   });
@@ -60,7 +60,7 @@ export async function logout () {
  * @returns {Promise} 
  */
 export async function createUser (user) {
-  const response = await fetch(`/api/users`, {
+  const response = await fetch(`${API_URL}/users`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -83,7 +83,7 @@ export async function createUser (user) {
  * @returns {Promise} 
  */
 export async function getAllUsers () {
-  const response = await fetch(`/api/users`, {
+  const response = await fetch(`${API_URL}/users`, {
     method: "get",
     credentials: "include",
     cache: "no-store"
@@ -106,7 +106,7 @@ export async function getAllUsers () {
  * @returns {Promise} 
  */
 export async function getUser (email) {
-  const response = await fetch(`/api/users/${encodeURIComponent(email)}`, {
+  const response = await fetch(`${API_URL}/users/${encodeURIComponent(email)}`, {
     method: "GET",
     credentials: "include",
     cache: "no-store"
@@ -127,7 +127,7 @@ export async function getUser (email) {
  * @returns {Promise} 
  */
 export async function editUser (email, user) {
-  const response = await fetch(`/api/users/${encodeURIComponent(email)}`, {
+  const response = await fetch(`${API_URL}/users/${encodeURIComponent(email)}`, {
     method: "put",
     headers: {
       "Content-Type": "application/json"
@@ -151,7 +151,7 @@ export async function editUser (email, user) {
  * @returns {Promise} 
  */
 export async function deleteUser (email) {
-  const response = await fetch(`/api/users/${encodeURIComponent(email)}`, {
+  const response = await fetch(`${API_URL}/users/${encodeURIComponent(email)}`, {
     method: "delete",
     credentials: "include",
   });
