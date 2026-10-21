@@ -41,12 +41,12 @@ export function generateToken (user) {
  * @returns {{ httpOnly: boolean; secure: boolean; sameSite: string; path: string; }} 
  */
 export function getAuthCookieOptions () {
-  const isProduction = process.env.NODE_ENV === "production";
+
   return (
     {
       httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
+      secure: true,
+      sameSite: "none",
       path: "/"
     }
   );
