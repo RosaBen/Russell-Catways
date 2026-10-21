@@ -40,13 +40,23 @@ export function generateToken (user) {
  * @export
  * @returns {{ httpOnly: boolean; secure: boolean; sameSite: string; path: string; }} 
  */
+// export function getAuthCookieOptions () {
+//   return (
+//     {
+//       httpOnly: true,
+//       secure: true,
+//       sameSite: "lax",
+//       path: "/"
+//     }
+//   );
+// }
 export function getAuthCookieOptions () {
-  return (
-    {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/"
-    }
-  );
+  const isProduction = process.env.NODE_ENV === "production";
+
+  return {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    path: "/"
+  };
 }

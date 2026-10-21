@@ -18,14 +18,14 @@ const app = express();
 
 app.set("trust proxy", 1);
 
-const allowedOrigins = [
-  "https://russell-catways-five.vercel.app",
-];
+// const allowedOrigins = [
+//   "https://russell-catways-five.vercel.app",
+// ];
 
 app.use(cors({
   // origin: "http://localhost:5173",
   // origin: "http://localhost:4173",
-  origin: allowedOrigins,
+  origin: "https://russell-catways-five.vercel.app",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
