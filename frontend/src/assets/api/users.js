@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 // AUTH
 
@@ -11,7 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL;
  * @returns {Promise} 
  */
 export async function login (credentials) {
-  const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`${VITE_API_URL}/login`, {
     method: "post",
     credentials: "include",
     headers: {
