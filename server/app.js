@@ -21,7 +21,7 @@ app.set("trust proxy", 1);
 app.use(cors({
   // origin: "http://localhost:5173",
   // origin: "http://localhost:4173",
-  origin: ["https://russelcatways-rb.netlify.app"],
+  origin: ["https://russell-catways-mu.vercel.app/"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
