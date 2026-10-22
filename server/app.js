@@ -49,7 +49,7 @@ app.use('/api/users', usersRouter);
 app.use("/api/catways", catwaysRouter);
 app.use("/api/reservations", reservationsRouter);
 app.use("/api/catways/:id/reservations", catwayReservationsRouter);
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(openApiSpec));
+app.use("/api/api-docs", swaggerUI.serve, swaggerUI.setup(openApiSpec));
 
 
 app.get("/", (req, res) => {

@@ -8,7 +8,7 @@ const openApiSpec = {
     description: "Documentation api du serveur russell Catways"
   },
   servers: [{
-    url: "http://localhost:3000/api", description: "local dev"
+    url: "https://russell-catways.onrender.com/api", description: "local dev"
   }],
   tags: [
     { name: "Index" },
