@@ -4,11 +4,11 @@ import { createCatwayReservation, getAllCatwayBookings, getReservationById, edit
 
 const router = Router({ mergeParams: true });
 
-router.post("/", createCatwayReservation); //add middleware
-router.get("/", getAllCatwayBookings); //add middleware
-router.get("/:idReservation", getReservationById); //add middleware
-router.put("/:idReservation", editReservation); //add middleware
-router.delete("/:idReservation", deleteReservation); //add middleware
+router.post("/", protect, createCatwayReservation); //add middleware
+router.get("/", protect, getAllCatwayBookings); //add middleware
+router.get("/:idReservation", protect, getReservationById); //add middleware
+router.put("/:idReservation", protect, editReservation); //add middleware
+router.delete("/:idReservation", protect, deleteReservation); //add middleware
 
 
 export default router;

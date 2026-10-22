@@ -5,10 +5,10 @@ import { createNewUser, getAllUsers, getUserByEmail, editUser, deleteUser } from
 const router = Router();
 
 router.post("/", createNewUser);
-router.get("/", getAllUsers); //add middleware
-router.get("/:email", getUserByEmail);//add middleware
-router.put("/:email", editUser); //add middleware
-router.delete("/:email", protect, deleteUser); //add middleware
+router.get("/", protect, getAllUsers); //add middleware
+router.get("/:email", protect, getUserByEmail);//add middleware
+router.put("/:email", protect, editUser); //add middleware
+router.delete("/:email", protect, protect, deleteUser); //add middleware
 
 
 export default router;

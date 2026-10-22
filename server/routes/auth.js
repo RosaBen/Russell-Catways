@@ -6,7 +6,7 @@ const router = Router();
 
 router.post("/login", login);
 
-router.get("/logout", logout); //add middleware
+router.get("/logout", protect, logout); //add middleware
 
 
 
